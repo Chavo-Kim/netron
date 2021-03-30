@@ -1,0 +1,653 @@
+digraph DAG {
+rankdir=TB;
+subgraph cluster_graph0 {
+subgraph cluster_graph0_subgraph0 {
+graph0_subgraph0_operator0 [label=<
+        <TABLE BGCOLOR='#143b0bb8' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD></TR>
+        <TR>
+        <TD colspan='1'>O0] Quantize<BR ALIGN='left'/>name: input.1_quantized<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="752640B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor0 [label="T0] in#0\lf32\l[1x3x224x224] NxCxHxW\lno buffer"
+  xlabel="602112 B / 602112 B"
+  shape="box"
+  style="filled, bold"
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor0 -> graph0_subgraph0_operator0:Input0;
+graph0_subgraph0_tensor18 [label="T18] \li8(axes: [], <(m:0, M:0.999998040497303) x 1>)\l(s: 0.0039215609431266785, o: -128) x 1\l[1x3x224x224] NxCxHxW\lno buffer"
+  xlabel="150528 B / 151552 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator0 -> graph0_subgraph0_tensor18;
+graph0_subgraph0_operator1 [label=<
+        <TABLE BGCOLOR='#99409cfa' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD><TD PORT='Input1'>Input1</TD><TD PORT='Input2'>Input2</TD></TR>
+        <TR>
+        <TD colspan='3'>O1] Conv2d<BR ALIGN='left'/>Padding { top: 2, left: 2, bottom: 2, right: 2 }<BR ALIGN='left'/>stride: (H: 4, W: 4), dilation: (H: 1, W: 1),<BR ALIGN='left'/>clipping: (Min: 0, Max: inf)<BR ALIGN='left'/>name: 17_quantized<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="367616B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor18 [label="T18] \li8(axes: [], <(m:0, M:0.999998040497303) x 1>)\l(s: 0.0039215609431266785, o: -128) x 1\l[1x3x224x224] NxCxHxW\lno buffer"
+  xlabel="150528 B / 151552 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor18 -> graph0_subgraph0_operator1:Input0;
+graph0_subgraph0_tensor1 [label="T1] \li8(axes: [AxisIndex(0)], <(m:-0.05289068818092346, M:0.05247747967951) x 64>)\l(s: 0.00041320850141346455, o: 0) x 64\l[64x3x11x11] NxCxHxW\lbuffer 23232B"
+  xlabel="23232 B / 24576 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow3"];
+
+graph0_subgraph0_tensor1 -> graph0_subgraph0_operator1:Input1;
+graph0_subgraph0_tensor2 [label="T2] \li32(axes: [AxisIndex(0)], <(m:-3479.830322265625, M:3479.830320645203) x 64>)\l(s: 0.000001620422267478716, o: 0) x 64\l[64] W\lbuffer 256B"
+  xlabel="256 B / 2048 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow3"];
+
+graph0_subgraph0_tensor2 -> graph0_subgraph0_operator1:Input2;
+graph0_subgraph0_tensor19 [label="T19] \li8(axes: [], <(m:0, M:1.3272007391788065) x 1>)\l(s: 0.005204708781093359, o: -128) x 1\l[1x64x55x55] NxCxHxW\lno buffer"
+  xlabel="193600 B / 194560 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator1 -> graph0_subgraph0_tensor19;
+graph0_subgraph0_operator2 [label=<
+        <TABLE BGCOLOR='#61d62dd9' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD></TR>
+        <TR>
+        <TD colspan='1'>O2] MaxPool2d<BR ALIGN='left'/>Padding { top: 0, left: 0, bottom: 0, right: 0 }<BR ALIGN='left'/>stride: (H: 2, W: 2)<BR ALIGN='left'/>kernel: (H: 3, W: 3)<BR ALIGN='left'/>clipping: (Min: -inf, Max: inf)<BR ALIGN='left'/>dilation: (H: 1, W: 1)<BR ALIGN='left'/>name: 19<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="240256B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor19 [label="T19] \li8(axes: [], <(m:0, M:1.3272007391788065) x 1>)\l(s: 0.005204708781093359, o: -128) x 1\l[1x64x55x55] NxCxHxW\lno buffer"
+  xlabel="193600 B / 194560 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor19 -> graph0_subgraph0_operator2:Input0;
+graph0_subgraph0_tensor20 [label="T20] \li8(axes: [], <(m:0, M:1.3272007391788065) x 1>)\l(s: 0.005204708781093359, o: -128) x 1\l[1x64x27x27] NxCxHxW\lno buffer"
+  xlabel="46656 B / 47104 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator2 -> graph0_subgraph0_tensor20;
+graph0_subgraph0_operator3 [label=<
+        <TABLE BGCOLOR='#99409cfa' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD><TD PORT='Input1'>Input1</TD><TD PORT='Input2'>Input2</TD></TR>
+        <TR>
+        <TD colspan='3'>O3] Conv2d<BR ALIGN='left'/>Padding { top: 2, left: 2, bottom: 2, right: 2 }<BR ALIGN='left'/>stride: (H: 1, W: 1), dilation: (H: 1, W: 1),<BR ALIGN='left'/>clipping: (Min: 0, Max: inf)<BR ALIGN='left'/>name: 20_quantized<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="494592B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor20 [label="T20] \li8(axes: [], <(m:0, M:1.3272007391788065) x 1>)\l(s: 0.005204708781093359, o: -128) x 1\l[1x64x27x27] NxCxHxW\lno buffer"
+  xlabel="46656 B / 47104 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor20 -> graph0_subgraph0_operator3:Input0;
+graph0_subgraph0_tensor3 [label="T3] \li8(axes: [AxisIndex(0)], <(m:-0.025193603709340096, M:0.024996778680360876) x 192>)\l(s: 0.0001968250289792195, o: 0) x 192\l[192x64x5x5] NxCxHxW\lbuffer 307200B"
+  xlabel="307200 B / 307200 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow3"];
+
+graph0_subgraph0_tensor3 -> graph0_subgraph0_operator3:Input1;
+graph0_subgraph0_tensor4 [label="T4] \li32(axes: [AxisIndex(0)], <(m:-2199.918701171875, M:2199.918700147458) x 192>)\l(s: 0.000001024416974360065, o: 0) x 192\l[192] W\lbuffer 768B"
+  xlabel="768 B / 2048 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow3"];
+
+graph0_subgraph0_tensor4 -> graph0_subgraph0_operator3:Input2;
+graph0_subgraph0_tensor21 [label="T21] \li8(axes: [], <(m:0, M:0.636368952691555) x 1>)\l(s: 0.0024955645203590393, o: -128) x 1\l[1x192x27x27] NxCxHxW\lno buffer"
+  xlabel="139968 B / 141312 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator3 -> graph0_subgraph0_tensor21;
+graph0_subgraph0_operator4 [label=<
+        <TABLE BGCOLOR='#61d62dd9' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD></TR>
+        <TR>
+        <TD colspan='1'>O4] MaxPool2d<BR ALIGN='left'/>Padding { top: 0, left: 0, bottom: 0, right: 0 }<BR ALIGN='left'/>stride: (H: 2, W: 2)<BR ALIGN='left'/>kernel: (H: 3, W: 3)<BR ALIGN='left'/>clipping: (Min: -inf, Max: inf)<BR ALIGN='left'/>dilation: (H: 1, W: 1)<BR ALIGN='left'/>name: 22<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="172416B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor21 [label="T21] \li8(axes: [], <(m:0, M:0.636368952691555) x 1>)\l(s: 0.0024955645203590393, o: -128) x 1\l[1x192x27x27] NxCxHxW\lno buffer"
+  xlabel="139968 B / 141312 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor21 -> graph0_subgraph0_operator4:Input0;
+graph0_subgraph0_tensor22 [label="T22] \li8(axes: [], <(m:0, M:0.636368952691555) x 1>)\l(s: 0.0024955645203590393, o: -128) x 1\l[1x192x13x13] NxCxHxW\lno buffer"
+  xlabel="32448 B / 32768 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator4 -> graph0_subgraph0_tensor22;
+graph0_subgraph0_operator5 [label=<
+        <TABLE BGCOLOR='#99409cfa' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD><TD PORT='Input1'>Input1</TD><TD PORT='Input2'>Input2</TD></TR>
+        <TR>
+        <TD colspan='3'>O5] Conv2d<BR ALIGN='left'/>Padding { top: 1, left: 1, bottom: 1, right: 1 }<BR ALIGN='left'/>stride: (H: 1, W: 1), dilation: (H: 1, W: 1),<BR ALIGN='left'/>clipping: (Min: 0, Max: inf)<BR ALIGN='left'/>name: 23_quantized<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="762432B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor22 [label="T22] \li8(axes: [], <(m:0, M:0.636368952691555) x 1>)\l(s: 0.0024955645203590393, o: -128) x 1\l[1x192x13x13] NxCxHxW\lno buffer"
+  xlabel="32448 B / 32768 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor22 -> graph0_subgraph0_operator5:Input0;
+graph0_subgraph0_tensor5 [label="T5] \li8(axes: [AxisIndex(0)], <(m:-0.02424229122698307, M:0.024052898326772265) x 384>)\l(s: 0.00018939290021080524, o: 0) x 384\l[384x192x3x3] NxCxHxW\lbuffer 663552B"
+  xlabel="663552 B / 663552 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow3"];
+
+graph0_subgraph0_tensor5 -> graph0_subgraph0_operator5:Input1;
+graph0_subgraph0_tensor6 [label="T6] \li32(axes: [AxisIndex(0)], <(m:-1014.9913940429688, M:1014.9913935703265) x 384>)\l(s: 0.00000047264219915632566, o: 0) x 384\l[384] W\lbuffer 1536B"
+  xlabel="1536 B / 2048 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow3"];
+
+graph0_subgraph0_tensor6 -> graph0_subgraph0_operator5:Input2;
+graph0_subgraph0_tensor23 [label="T23] \li8(axes: [], <(m:0, M:0.36428761028219014) x 1>)\l(s: 0.001428578863851726, o: -128) x 1\l[1x384x13x13] NxCxHxW\lno buffer"
+  xlabel="64896 B / 65536 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator5 -> graph0_subgraph0_tensor23;
+graph0_subgraph0_operator6 [label=<
+        <TABLE BGCOLOR='#99409cfa' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD><TD PORT='Input1'>Input1</TD><TD PORT='Input2'>Input2</TD></TR>
+        <TR>
+        <TD colspan='3'>O6] Conv2d<BR ALIGN='left'/>Padding { top: 1, left: 1, bottom: 1, right: 1 }<BR ALIGN='left'/>stride: (H: 1, W: 1), dilation: (H: 1, W: 1),<BR ALIGN='left'/>clipping: (Min: 0, Max: inf)<BR ALIGN='left'/>name: 25_quantized<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="993920B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor23 [label="T23] \li8(axes: [], <(m:0, M:0.36428761028219014) x 1>)\l(s: 0.001428578863851726, o: -128) x 1\l[1x384x13x13] NxCxHxW\lno buffer"
+  xlabel="64896 B / 65536 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor23 -> graph0_subgraph0_operator6:Input0;
+graph0_subgraph0_tensor7 [label="T7] \li8(axes: [AxisIndex(0)], <(m:-0.017143692821264267, M:0.01700975772109814) x 256>)\l(s: 0.00013393510016612709, o: 0) x 256\l[256x384x3x3] NxCxHxW\lbuffer 884736B"
+  xlabel="884736 B / 884736 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow3"];
+
+graph0_subgraph0_tensor7 -> graph0_subgraph0_operator6:Input1;
+graph0_subgraph0_tensor8 [label="T8] \li32(axes: [AxisIndex(0)], <(m:-410.89276123046875, M:410.89276103913187) x 256>)\l(s: 0.00000019133685214001162, o: 0) x 256\l[256] W\lbuffer 1024B"
+  xlabel="1024 B / 2048 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow3"];
+
+graph0_subgraph0_tensor8 -> graph0_subgraph0_operator6:Input2;
+graph0_subgraph0_tensor24 [label="T24] \li8(axes: [], <(m:0, M:0.1610650448128581) x 1>)\l(s: 0.0006316276267170906, o: -128) x 1\l[1x256x13x13] NxCxHxW\lno buffer"
+  xlabel="43264 B / 45056 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator6 -> graph0_subgraph0_tensor24;
+graph0_subgraph0_operator7 [label=<
+        <TABLE BGCOLOR='#99409cfa' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD><TD PORT='Input1'>Input1</TD><TD PORT='Input2'>Input2</TD></TR>
+        <TR>
+        <TD colspan='3'>O7] Conv2d<BR ALIGN='left'/>Padding { top: 1, left: 1, bottom: 1, right: 1 }<BR ALIGN='left'/>stride: (H: 1, W: 1), dilation: (H: 1, W: 1),<BR ALIGN='left'/>clipping: (Min: 0, Max: inf)<BR ALIGN='left'/>name: 27_quantized<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="677376B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor24 [label="T24] \li8(axes: [], <(m:0, M:0.1610650448128581) x 1>)\l(s: 0.0006316276267170906, o: -128) x 1\l[1x256x13x13] NxCxHxW\lno buffer"
+  xlabel="43264 B / 45056 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor24 -> graph0_subgraph0_operator7:Input0;
+graph0_subgraph0_tensor9 [label="T9] \li8(axes: [AxisIndex(0)], <(m:-0.020992785692214966, M:0.020828779553994536) x 256>)\l(s: 0.00016400613822042942, o: 0) x 256\l[256x256x3x3] NxCxHxW\lbuffer 589824B"
+  xlabel="589824 B / 589824 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow3"];
+
+graph0_subgraph0_tensor9 -> graph0_subgraph0_operator7:Input1;
+graph0_subgraph0_tensor10 [label="T10] \li32(axes: [AxisIndex(0)], <(m:-222.45956420898438, M:222.45956410539355) x 256>)\l(s: 0.00000010359080704347434, o: 0) x 256\l[256] W\lbuffer 1024B"
+  xlabel="1024 B / 2048 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow3"];
+
+graph0_subgraph0_tensor10 -> graph0_subgraph0_operator7:Input2;
+graph0_subgraph0_tensor25 [label="T25] \li8(axes: [], <(m:0, M:0.07833909752662294) x 1>)\l(s: 0.0003072121471632272, o: -128) x 1\l[1x256x13x13] NxCxHxW\lno buffer"
+  xlabel="43264 B / 45056 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator7 -> graph0_subgraph0_tensor25;
+graph0_subgraph0_operator8 [label=<
+        <TABLE BGCOLOR='#61d62dd9' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD></TR>
+        <TR>
+        <TD colspan='1'>O8] MaxPool2d<BR ALIGN='left'/>Padding { top: 0, left: 0, bottom: 0, right: 0 }<BR ALIGN='left'/>stride: (H: 2, W: 2)<BR ALIGN='left'/>kernel: (H: 3, W: 3)<BR ALIGN='left'/>clipping: (Min: -inf, Max: inf)<BR ALIGN='left'/>dilation: (H: 1, W: 1)<BR ALIGN='left'/>name: 29<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="52480B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor25 [label="T25] \li8(axes: [], <(m:0, M:0.07833909752662294) x 1>)\l(s: 0.0003072121471632272, o: -128) x 1\l[1x256x13x13] NxCxHxW\lno buffer"
+  xlabel="43264 B / 45056 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor25 -> graph0_subgraph0_operator8:Input0;
+graph0_subgraph0_tensor26 [label="T26] \li8(axes: [], <(m:0, M:0.07833909752662294) x 1>)\l(s: 0.0003072121471632272, o: -128) x 1\l[1x256x6x6] NxCxHxW\lno buffer"
+  xlabel="9216 B / 10240 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator8 -> graph0_subgraph0_tensor26;
+graph0_subgraph0_operator9 [label=<
+        <TABLE BGCOLOR='#dc8aca75' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD><TD PORT='Input1'>Input1</TD></TR>
+        <TR>
+        <TD colspan='2'>O9] OnnxRuntime<BR ALIGN='left'/>output_index: 0<BR ALIGN='left'/>name: AveragePool<BR ALIGN='left'/>name: 127_0<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="18893B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor26 [label="T26] \li8(axes: [], <(m:0, M:0.07833909752662294) x 1>)\l(s: 0.0003072121471632272, o: -128) x 1\l[1x256x6x6] NxCxHxW\lno buffer"
+  xlabel="9216 B / 10240 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor26 -> graph0_subgraph0_operator9:Input0;
+graph0_subgraph0_tensor38 [label="T38] \li8(axes: [], <(m:-128, M:127) x 1>)\l(s: 1, o: 0) x 1\l[461x1x1x1] NxCxHxW\lbuffer 461B"
+  xlabel="461 B / 2048 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow3"];
+
+graph0_subgraph0_tensor38 -> graph0_subgraph0_operator9:Input1;
+graph0_subgraph0_tensor27 [label="T27] \li8(axes: [], <(m:0, M:0.07833909752662294) x 1>)\l(s: 0.0003072121471632272, o: -128) x 1\l[1x256x6x6] NxCxHxW\lno buffer"
+  xlabel="9216 B / 10240 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator9 -> graph0_subgraph0_tensor27;
+graph0_subgraph0_operator10 [label=<
+        <TABLE BGCOLOR='#e5d0c5a8' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD></TR>
+        <TR>
+        <TD colspan='1'>O10] Reshape<BR ALIGN='left'/>name: 31<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="18432B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor27 [label="T27] \li8(axes: [], <(m:0, M:0.07833909752662294) x 1>)\l(s: 0.0003072121471632272, o: -128) x 1\l[1x256x6x6] NxCxHxW\lno buffer"
+  xlabel="9216 B / 10240 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor27 -> graph0_subgraph0_operator10:Input0;
+graph0_subgraph0_tensor28 [label="T28] \li8(axes: [], <(m:0, M:0.07833909752662294) x 1>)\l(s: 0.0003072121471632272, o: -128) x 1\l[1, 9216]\lno buffer"
+  xlabel="9216 B / 10240 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator10 -> graph0_subgraph0_tensor28;
+graph0_subgraph0_operator11 [label=<
+        <TABLE BGCOLOR='#e5d0c5a8' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD></TR>
+        <TR>
+        <TD colspan='1'>O11] Reshape<BR ALIGN='left'/>name: 31_unsqueezed<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="18432B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor28 [label="T28] \li8(axes: [], <(m:0, M:0.07833909752662294) x 1>)\l(s: 0.0003072121471632272, o: -128) x 1\l[1, 9216]\lno buffer"
+  xlabel="9216 B / 10240 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor28 -> graph0_subgraph0_operator11:Input0;
+graph0_subgraph0_tensor29 [label="T29] \li8(axes: [], <(m:0, M:0.07833909752662294) x 1>)\l(s: 0.0003072121471632272, o: -128) x 1\l[1x9216x1x1] NxCxHxW\lno buffer"
+  xlabel="9216 B / 10240 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator11 -> graph0_subgraph0_tensor29;
+graph0_subgraph0_operator12 [label=<
+        <TABLE BGCOLOR='#99409cfa' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD><TD PORT='Input1'>Input1</TD><TD PORT='Input2'>Input2</TD></TR>
+        <TR>
+        <TD colspan='3'>O12] Conv2d<BR ALIGN='left'/>Padding { top: 0, left: 0, bottom: 0, right: 0 }<BR ALIGN='left'/>stride: (H: 1, W: 1), dilation: (H: 1, W: 1),<BR ALIGN='left'/>clipping: (Min: 0, Max: inf)<BR ALIGN='left'/>name: 32_reified_quantized<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="37778432B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor29 [label="T29] \li8(axes: [], <(m:0, M:0.07833909752662294) x 1>)\l(s: 0.0003072121471632272, o: -128) x 1\l[1x9216x1x1] NxCxHxW\lno buffer"
+  xlabel="9216 B / 10240 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor29 -> graph0_subgraph0_operator12:Input0;
+graph0_subgraph0_tensor11 [label="T11] \li8(axes: [AxisIndex(0)], <(m:-0.010498236864805222, M:0.01041621938929893) x 4096>)\l(s: 0.0000820174755062908, o: 0) x 4096\l[4096x9216x1x1] NxCxHxW\lbuffer 37748736B"
+  xlabel="37748736 B / 37748736 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow3"];
+
+graph0_subgraph0_tensor11 -> graph0_subgraph0_operator12:Input1;
+graph0_subgraph0_tensor12 [label="T12] \li32(axes: [AxisIndex(0)], <(m:-54.109642028808594, M:54.109642003611825) x 4096>)\l(s: 0.000000025196765562895962, o: 0) x 4096\l[4096] W\lbuffer 16384B"
+  xlabel="16384 B / 16384 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow3"];
+
+graph0_subgraph0_tensor12 -> graph0_subgraph0_operator12:Input2;
+graph0_subgraph0_tensor36 [label="T36] \li8(axes: [], <(m:0, M:0.046496123395627365) x 1>)\l(s: 0.00018233773880638182, o: -128) x 1\l[1x4096x1x1] NxCxHxW\lno buffer"
+  xlabel="4096 B / 4096 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator12 -> graph0_subgraph0_tensor36;
+graph0_subgraph0_operator13 [label=<
+        <TABLE BGCOLOR='#e5d0c5a8' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD></TR>
+        <TR>
+        <TD colspan='1'>O13] Reshape<BR ALIGN='left'/>name: 32<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="8192B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor36 [label="T36] \li8(axes: [], <(m:0, M:0.046496123395627365) x 1>)\l(s: 0.00018233773880638182, o: -128) x 1\l[1x4096x1x1] NxCxHxW\lno buffer"
+  xlabel="4096 B / 4096 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor36 -> graph0_subgraph0_operator13:Input0;
+graph0_subgraph0_tensor30 [label="T30] \li8(axes: [], <(m:0, M:0.046496123395627365) x 1>)\l(s: 0.00018233773880638182, o: -128) x 1\l[1, 4096]\lno buffer"
+  xlabel="4096 B / 4096 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator13 -> graph0_subgraph0_tensor30;
+graph0_subgraph0_operator14 [label=<
+        <TABLE BGCOLOR='#e5d0c5a8' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD></TR>
+        <TR>
+        <TD colspan='1'>O14] Reshape<BR ALIGN='left'/>name: 33_unsqueezed<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="8192B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor30 [label="T30] \li8(axes: [], <(m:0, M:0.046496123395627365) x 1>)\l(s: 0.00018233773880638182, o: -128) x 1\l[1, 4096]\lno buffer"
+  xlabel="4096 B / 4096 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor30 -> graph0_subgraph0_operator14:Input0;
+graph0_subgraph0_tensor31 [label="T31] \li8(axes: [], <(m:0, M:0.046496123395627365) x 1>)\l(s: 0.00018233773880638182, o: -128) x 1\l[1x4096x1x1] NxCxHxW\lno buffer"
+  xlabel="4096 B / 4096 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator14 -> graph0_subgraph0_tensor31;
+graph0_subgraph0_operator15 [label=<
+        <TABLE BGCOLOR='#99409cfa' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD><TD PORT='Input1'>Input1</TD><TD PORT='Input2'>Input2</TD></TR>
+        <TR>
+        <TD colspan='3'>O15] Conv2d<BR ALIGN='left'/>Padding { top: 0, left: 0, bottom: 0, right: 0 }<BR ALIGN='left'/>stride: (H: 1, W: 1), dilation: (H: 1, W: 1),<BR ALIGN='left'/>clipping: (Min: 0, Max: inf)<BR ALIGN='left'/>name: 34_reified_quantized<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="16801792B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor31 [label="T31] \li8(axes: [], <(m:0, M:0.046496123395627365) x 1>)\l(s: 0.00018233773880638182, o: -128) x 1\l[1x4096x1x1] NxCxHxW\lno buffer"
+  xlabel="4096 B / 4096 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor31 -> graph0_subgraph0_operator15:Input0;
+graph0_subgraph0_tensor13 [label="T13] \li8(axes: [AxisIndex(0)], <(m:-0.015747329220175743, M:0.01562430321064312) x 4096>)\l(s: 0.000123026009532623, o: 0) x 4096\l[4096x4096x1x1] NxCxHxW\lbuffer 16777216B"
+  xlabel="16777216 B / 16777216 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow3"];
+
+graph0_subgraph0_tensor13 -> graph0_subgraph0_operator15:Input1;
+graph0_subgraph0_tensor14 [label="T14] \li32(axes: [AxisIndex(0)], <(m:-48.1729621887207, M:48.17296216628842) x 4096>)\l(s: 0.00000002243228358622673, o: 0) x 4096\l[4096] W\lbuffer 16384B"
+  xlabel="16384 B / 16384 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow3"];
+
+graph0_subgraph0_tensor14 -> graph0_subgraph0_operator15:Input2;
+graph0_subgraph0_tensor37 [label="T37] \li8(axes: [], <(m:0, M:0.032989933679345995) x 1>)\l(s: 0.00012937228893861175, o: -128) x 1\l[1x4096x1x1] NxCxHxW\lno buffer"
+  xlabel="4096 B / 4096 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator15 -> graph0_subgraph0_tensor37;
+graph0_subgraph0_operator16 [label=<
+        <TABLE BGCOLOR='#e5d0c5a8' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD></TR>
+        <TR>
+        <TD colspan='1'>O16] Reshape<BR ALIGN='left'/>name: 34<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="8192B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor37 [label="T37] \li8(axes: [], <(m:0, M:0.032989933679345995) x 1>)\l(s: 0.00012937228893861175, o: -128) x 1\l[1x4096x1x1] NxCxHxW\lno buffer"
+  xlabel="4096 B / 4096 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor37 -> graph0_subgraph0_operator16:Input0;
+graph0_subgraph0_tensor32 [label="T32] \li8(axes: [], <(m:0, M:0.032989933679345995) x 1>)\l(s: 0.00012937228893861175, o: -128) x 1\l[1, 4096]\lno buffer"
+  xlabel="4096 B / 4096 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator16 -> graph0_subgraph0_tensor32;
+graph0_subgraph0_operator17 [label=<
+        <TABLE BGCOLOR='#e5d0c5a8' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD></TR>
+        <TR>
+        <TD colspan='1'>O17] Reshape<BR ALIGN='left'/>name: 35_unsqueezed<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="8192B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor32 [label="T32] \li8(axes: [], <(m:0, M:0.032989933679345995) x 1>)\l(s: 0.00012937228893861175, o: -128) x 1\l[1, 4096]\lno buffer"
+  xlabel="4096 B / 4096 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor32 -> graph0_subgraph0_operator17:Input0;
+graph0_subgraph0_tensor33 [label="T33] \li8(axes: [], <(m:0, M:0.032989933679345995) x 1>)\l(s: 0.00012937228893861175, o: -128) x 1\l[1x4096x1x1] NxCxHxW\lno buffer"
+  xlabel="4096 B / 4096 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator17 -> graph0_subgraph0_tensor33;
+graph0_subgraph0_operator18 [label=<
+        <TABLE BGCOLOR='#99409cfa' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD><TD PORT='Input1'>Input1</TD><TD PORT='Input2'>Input2</TD></TR>
+        <TR>
+        <TD colspan='3'>O18] Conv2d<BR ALIGN='left'/>Padding { top: 0, left: 0, bottom: 0, right: 0 }<BR ALIGN='left'/>stride: (H: 1, W: 1), dilation: (H: 1, W: 1),<BR ALIGN='left'/>clipping: (Min: -inf, Max: inf)<BR ALIGN='left'/>name: 36_reified_quantized<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="4105096B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor33 [label="T33] \li8(axes: [], <(m:0, M:0.032989933679345995) x 1>)\l(s: 0.00012937228893861175, o: -128) x 1\l[1x4096x1x1] NxCxHxW\lno buffer"
+  xlabel="4096 B / 4096 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor33 -> graph0_subgraph0_operator18:Input0;
+graph0_subgraph0_tensor15 [label="T15] \li8(axes: [AxisIndex(0)], <(m:-0.01574784331023693, M:0.015624813284375705) x 1000>)\l(s: 0.00012303002586122602, o: 0) x 1000\l[1000x4096x1x1] NxCxHxW\lbuffer 4096000B"
+  xlabel="4096000 B / 4096000 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow3"];
+
+graph0_subgraph0_tensor15 -> graph0_subgraph0_operator18:Input1;
+graph0_subgraph0_tensor16 [label="T16] \li32(axes: [AxisIndex(0)], <(m:-34.18080139160156, M:34.18080137568489) x 1000>)\l(s: 0.000000015916675977223352, o: 0) x 1000\l[1000] W\lbuffer 4000B"
+  xlabel="4000 B / 4096 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow3"];
+
+graph0_subgraph0_tensor16 -> graph0_subgraph0_operator18:Input2;
+graph0_subgraph0_tensor34 [label="T34] \li8(axes: [], <(m:-0.02463796455413103, M:0.022958103334531188) x 1>)\l(s: 0.00018665124662220478, o: 4) x 1\l[1x1000x1x1] NxCxHxW\lno buffer"
+  xlabel="1000 B / 2048 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator18 -> graph0_subgraph0_tensor34;
+graph0_subgraph0_operator19 [label=<
+        <TABLE BGCOLOR='#e5d0c5a8' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD></TR>
+        <TR>
+        <TD colspan='1'>O19] Reshape<BR ALIGN='left'/>name: 36<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="2000B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor34 [label="T34] \li8(axes: [], <(m:-0.02463796455413103, M:0.022958103334531188) x 1>)\l(s: 0.00018665124662220478, o: 4) x 1\l[1x1000x1x1] NxCxHxW\lno buffer"
+  xlabel="1000 B / 2048 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor34 -> graph0_subgraph0_operator19:Input0;
+graph0_subgraph0_tensor35 [label="T35] \li8(axes: [], <(m:-0.02463796455413103, M:0.022958103334531188) x 1>)\l(s: 0.00018665124662220478, o: 4) x 1\l[1, 1000]\lno buffer"
+  xlabel="1000 B / 2048 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator19 -> graph0_subgraph0_tensor35;
+graph0_subgraph0_operator20 [label=<
+        <TABLE BGCOLOR='#79c4dddf' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD></TR>
+        <TR>
+        <TD colspan='1'>O20] Dequantize<BR ALIGN='left'/>name: 36_dequantized<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="5000B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor35 [label="T35] \li8(axes: [], <(m:-0.02463796455413103, M:0.022958103334531188) x 1>)\l(s: 0.00018665124662220478, o: 4) x 1\l[1, 1000]\lno buffer"
+  xlabel="1000 B / 2048 B"
+  shape="box"
+  style="filled, "
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor35 -> graph0_subgraph0_operator20:Input0;
+graph0_subgraph0_tensor17 [label="T17] out#0\lf32\l[1, 1000]\lno buffer"
+  xlabel="4000 B / 4096 B"
+  shape="box"
+  style="filled, bold"
+  fillcolor="Snow1"];
+
+graph0_subgraph0_operator20 -> graph0_subgraph0_tensor17;
+  label = "graph0_subgraph0";
+}
+  label = "DFG";
+}
+}
