@@ -348,6 +348,7 @@ host.ElectronHost = class {
         }
     }
 
+    //Todo: file get model here
     _openFile(file) {
         if (this._queue) {
             this._queue.push(file);
@@ -359,6 +360,7 @@ host.ElectronHost = class {
             const basename = path.basename(file);
             this.request(basename, null, dirname).then((stream) => {
                 const context = new host.ElectronHost.ElectonContext(this, dirname, basename, stream);
+                console.log(context);
                 this._view.open(context).then((model) => {
                     this._view.show(null);
                     if (model) {

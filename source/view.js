@@ -421,6 +421,7 @@ view.View = class {
         return this._modelFactoryService.accept(file);
     }
 
+    //Todo: file context upload
     open(context) {
         this._host.event('Model', 'Open', 'Size', context.stream.length);
         this._sidebar.close();
@@ -428,9 +429,11 @@ view.View = class {
             return this._modelFactoryService.open(context).then((model) => {
                 const format = model.format;
                 if (format) {
+                    console.log("model format");
                     this._host.event('Model', 'Format', format + (model.producer ? ' (' + model.producer + ')' : ''));
                 }
                 return this._timeout(20).then(() => {
+                    console.log("model graph update");
                     const graph = model.graphs.length > 0 ? model.graphs[0] : null;
                     return this._updateGraph(model, graph);
                 });
@@ -1229,6 +1232,7 @@ view.ModelContext = class {
     }
 
     tags(type) {
+        console.log(type);
         let tags = this._tags.get(type);
         if (!tags) {
             tags = new Map();
@@ -1357,6 +1361,8 @@ view.ArchiveError = class extends Error {
 
 view.ModelFactoryService = class {
 
+    //Todo:
+    //Add register
     constructor(host) {
         this._host = host;
         this._extensions = [];
@@ -1397,6 +1403,7 @@ view.ModelFactoryService = class {
         this.register('./dl4j', [ '.zip' ]);
         this.register('./mlnet', [ '.zip' ]);
         this.register('./acuity', [ '.json' ]);
+        this.register('./dot', [ '.dot' ]);
     }
 
     register(id, extensions) {
@@ -1404,11 +1411,12 @@ view.ModelFactoryService = class {
             this._extensions.push({ extension: extension, id: id });
         }
     }
-
+    //Todo:
     open(context) {
         return this._openSignature(context).then((context) => {
             const entries = this._openArchive(context);
             const modelContext = new view.ModelContext(context, entries);
+            console.log(entries, modelContext);
             return this._openContext(modelContext).then((model) => {
                 if (model) {
                     return model;
@@ -1574,6 +1582,7 @@ view.ModelFactoryService = class {
         return entries;
     }
 
+    //Todo:
     _openContext(context) {
         const modules = this._filter(context).filter((module) => module && module.length > 0);
         const errors = [];
@@ -1582,6 +1591,7 @@ view.ModelFactoryService = class {
             if (modules.length > 0) {
                 const id = modules.shift();
                 return this._host.require(id).then((module) => {
+                    console.log(module);
                     if (!module.ModelFactory) {
                         throw new view.Error("Failed to load module '" + id + "'.");
                     }
@@ -1691,6 +1701,8 @@ view.ModelFactoryService = class {
         }
     }
 
+    //Todo:
+    //When file uploaded, check that file's identifier
     accept(identifier) {
         const extension = identifier.indexOf('.') === -1 ? '' : identifier.split('.').pop().toLowerCase();
         identifier = identifier.toLowerCase().split('/').pop();
@@ -1720,10 +1732,12 @@ view.ModelFactoryService = class {
         return Array.from(new Set(list.map((entry) => entry.id)));
     }
 
+    //Todo:
     _openSignature(context) {
         const stream = context.stream;
         let empty = true;
         let position = 0;
+        console.log(stream);
         while (empty && position < stream.length) {
             const buffer = stream.read(Math.min(4096, stream.length - position));
             position += buffer.length;

@@ -19,6 +19,7 @@ darknet.ModelFactory = class {
                     const reader = base.TextReader.create(context.stream.peek(), 65536);
                     for (;;) {
                         const line = reader.read();
+                        console.log(line);
                         if (line === undefined) {
                             break;
                         }
@@ -96,6 +97,7 @@ darknet.Graph = class {
         for (;;) {
             lineNumber++;
             const text = reader.read();
+
             if (text === undefined) {
                 break;
             }

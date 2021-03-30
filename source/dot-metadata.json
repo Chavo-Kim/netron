@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Conv2d",
+    "schema": {
+      "category": "Layer",
+      "attributes": [
+
+      ]
+    }
+  },
+  {
+    "name": "MaxPool2d",
+    "schema": {
+      "category": "Pool",
+      "attributes": [
+
+      ]
+    }
+  }
+]
