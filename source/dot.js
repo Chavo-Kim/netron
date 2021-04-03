@@ -8,6 +8,9 @@ dot.ModelFactory = class {
     match(context) {
         const identifier = context.identifier;
         const extension = identifier.split('.').pop().toLowerCase();
+        // Todo: match 제대로 구현
+        return true;
+
         switch (extension) {
             default:
                 try {
@@ -825,9 +828,15 @@ dot.Attribute = class {
 };
 
 dot.Metadata = class {
-
+    static open(context) {
+        return Promise.resolve(new Object())
+    }
 };
 
 dot.Error = class {
 
 };
+
+if (typeof module !== 'undefined' && typeof module.exports === 'object') {
+    module.exports.ModelFactory = dot.ModelFactory;
+}
