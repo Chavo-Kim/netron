@@ -44,7 +44,7 @@ dot.ModelFactory = class {
                 return new dot.Model(metadata, cfg);
             };
 
-            open(metadata, context.stream.peek());
+            return open(metadata, context.stream.peek());
         });
     }
 };
@@ -68,6 +68,10 @@ dot.Graph = class {
         this._inputs = [];
         this._outputs = [];
         this._nodes = [];
+
+        //Todo: 구현
+        return
+
         // read_cfg
         const sections = [];
         let section = null;
