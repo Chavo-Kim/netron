@@ -142,10 +142,12 @@ dot.Graph = class {
                 consume('{');
             }
 
-            const componentName = consume();
             // edge
             if (nextToken() === '->') {
-
+                consume();
+                //Todo: handle ':' token
+                const componentName = consume().split(':')[0];
+                sections.find(item => item.name === componentName).updateOutput(new dot.Parameter(token, true));
             }
             // component description
             else {
@@ -249,7 +251,9 @@ dot.Section = class {
         this._layer = {
             inputs: [],
             weights: [],
-            outputs: []
+            outputs: [
+                new Parameter(name, true),
+            ]
         };
         this._line = 1;
         this._type = "convolutional";
