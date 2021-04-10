@@ -142,10 +142,12 @@ dot.Graph = class {
                 break;
             }
 
-            allText += line;
+            allText += ' ' + line;
         }
 
         const tokens = tokenize(allText);
+        console.log("####");
+        console.log(tokens);
 
         const consume = (expected) => {
             const token = tokens.shift();
@@ -190,6 +192,7 @@ dot.Graph = class {
             // component description
             else if (nextToken() == '['){
                 console.log('!!!!!');
+                console.log(sectionName);
                 sections.push(new dot.Section(sectionName));
                 consume('[');
                 const properties = {};
