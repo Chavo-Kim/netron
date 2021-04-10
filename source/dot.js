@@ -148,8 +148,11 @@ dot.Graph = class {
             const token = consume();
 
             // Todo: 처리
-            if (token.startsWith('rankdir'))
+            if (token.startsWith('rankdir')) {
+                consume();
+                consume();
                 continue;
+            }
 
             if (token === 'digraph' || token === 'subgraph') {
                 const graphName = consume();
