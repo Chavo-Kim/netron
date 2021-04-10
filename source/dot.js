@@ -323,7 +323,7 @@ dot.Section = class {
     }
 
     updateOutput(output) {
-        this._outputs.push(new dot.Parameter(output, true));
+        this._layer._outputs.push(new dot.Parameter(output, true));
     }
 
     get name() {
