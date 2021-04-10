@@ -194,13 +194,14 @@ dot.Graph = class {
                 console.log(sections);
                 console.log(componentName);
                 const findSection = sections.find(item => item.name === componentName);
-                findSection ? findSection.updateInput(new dot.Parameter(token, true)) : sections.push(new dot.Section(componentName, token));
+                findSection ? findSection.updateInput(token) : sections.push(new dot.Section(componentName, token));
             }
             // component description
             else if (nextToken() == '['){
                 console.log('!!!!!');
                 console.log(sectionName);
-                sections.push(new dot.Section(sectionName));
+                const findSection = sections.find(item => item.name === sectionName);
+                !findSection && sections.push(new dot.Section(sectionName));
                 consume('[');
                 const properties = {};
                 while (nextToken() != ']') {
