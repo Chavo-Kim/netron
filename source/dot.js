@@ -176,6 +176,12 @@ dot.Graph = class {
                 const graphName = consume();
                 scopeStack.push(graphName);
                 consume('{');
+                continue;
+            }
+
+            if (token === '}') {
+                scopeStack.pop();
+                continue;
             }
 
             const sectionName = token;
