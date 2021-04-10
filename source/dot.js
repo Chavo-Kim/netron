@@ -319,7 +319,7 @@ dot.Section = class {
     }
 
     updateInput(input) {
-        this._inputs.push(new dot.Parameter(input, true));
+        this._layer.inputs.push(new dot.Parameter(input, true));
     }
 
     updateOutput(output) {
