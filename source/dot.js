@@ -15,14 +15,28 @@ function tokenize(line) {
     }
 
     let doubleQuoted = false;
+    let htmlDepth = 0;
     for(const ch of line) {
         if (doubleQuoted) {
             if (ch === '"') {
                 append(token); token = '';
+                doubleQuoted = false;
             }
             else {
                 token = token + ch;
             }
+            continue;
+        }
+
+        if (htmlDepth > 0) {
+            if (ch === '<') htmlDepth += 1;
+            else if (ch === '>') htmlDepth -= 1;
+
+            token = token + ch;
+            if (htmlDepth === 0) {
+                append(token); token = '';
+            }
+            continue;
         }
 
         switch(ch) {
@@ -38,6 +52,9 @@ function tokenize(line) {
                 break;
             case '"':
                 doubleQuoted = true;
+                break;
+            case '<':
+                htmlDepth = 1; token = '<';
                 break;
             default:
                 token = token + ch;
@@ -117,16 +134,18 @@ dot.Graph = class {
         const reader = base.TextReader.create(cfg);
         let lineNumber = 0;
 
-        const tokens = [];
+        let allText = '';
         for (;;) {
             lineNumber++;
-            const text = reader.read();
-            if (text === undefined) {
+            const line = reader.read();
+            if (line === undefined) {
                 break;
             }
 
-            tokenize(text).forEach(token => tokens.push(token));
+            allText += line;
         }
+
+        const tokens = tokenize(allText);
 
         const consume = (expected) => {
             const token = tokens.shift();
@@ -163,6 +182,9 @@ dot.Graph = class {
                 consume();
                 //Todo: handle ':' token
                 const componentName = consume().split(':')[0];
+                console.log('@@@#$#$@#$');
+                console.log(sections);
+                console.log(componentName);
                 sections.find(item => item.name === componentName).updateInput(new dot.Parameter(token, true));
             }
             // component description
