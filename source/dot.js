@@ -74,19 +74,73 @@ dot.Graph = class {
             layer: {
                 inputs: [],
                 weights: [],
-                outputs: []
+                outputs: [
+                    new dot.Parameter('AA', true),
+                ]
             },
             line: 1,
             type: "convolutional",
             options: {}
-        }
+        };
 
-        const node = new dot.Node(section)
+        const section2 = {
+            name: "BB",
+            chain: [],
+            layer: {
+                inputs: [
+                    new dot.Parameter('AA', true),
+                ],
+                weights: [],
+                outputs: [
+                    new dot.Parameter('BB', true),
+                ]
+            },
+            line: 1,
+            type: "convolutional",
+            options: {}
+        };
 
-        this._nodes.push(node)
+        const section3 = {
+            name: "CC",
+            chain: [],
+            layer: {
+                inputs: [
+                    new dot.Parameter('BB', true),
+                ],
+                weights: [],
+                outputs: [
+                    new dot.Parameter('CC', true),
+                ]
+            },
+            line: 1,
+            type: "convolutional",
+            options: {}
+        };
+
+        const section4 = {
+            name: "DD",
+            chain: [],
+            layer: {
+                inputs: [
+                    new dot.Parameter('BB', true),
+                ],
+                weights: [],
+                outputs: [
+                    new dot.Parameter('DD', true),
+                ]
+            },
+            line: 1,
+            type: "convolutional",
+            options: {}
+        };
+
+        this._nodes.push(new dot.Node(section));
+        this._nodes.push(new dot.Node(section2));
+        this._nodes.push(new dot.Node(section3));
+        this._nodes.push(new dot.Node(section4));
 
         //Todo: 구현
-        return
+        return;
 
         // read_cfg
         // const sections = [];
@@ -189,16 +243,16 @@ dot.Node = class {
         this._inputs = [];
         this._outputs = [];
         this._chain = [];
-        // const layer = section.layer;
-        // if (layer && layer.inputs && layer.inputs.length > 0) {
-        //     this._inputs.push(new dot.Parameter(layer.inputs.length <= 1 ? 'input' : 'inputs', true, layer.inputs));
-        // }
+        const layer = section.layer;
+        if (layer && layer.inputs && layer.inputs.length > 0) {
+            this._inputs.push(new dot.Parameter(layer.inputs.length <= 1 ? 'input' : 'inputs', true, layer.inputs));
+        }
         // if (layer && layer.weights && layer.weights.length > 0) {
         //     this._inputs = this._inputs.concat(layer.weights);
         // }
-        // if (layer && layer.outputs && layer.outputs.length > 0) {
-        //     this._outputs.push(new dot.Parameter(layer.outputs.length <= 1 ? 'output' : 'outputs', true, layer.outputs));
-        // }
+        if (layer && layer.outputs && layer.outputs.length > 0) {
+            this._outputs.push(new dot.Parameter(layer.outputs.length <= 1 ? 'output' : 'outputs', true, layer.outputs));
+        }
         // if (section.chain) {
         //     for (const chain of section.chain) {
         //         this._chain.push(new dot.Node(metadata, net, chain, ''));
