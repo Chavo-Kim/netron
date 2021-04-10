@@ -68,9 +68,6 @@ dot.Graph = class {
         this._outputs = [];
         this._nodes = [];
 
-        //Todo: 구현
-        return
-
         // read_cfg
         // const sections = [];
         // let section = null;
@@ -88,7 +85,8 @@ dot.Graph = class {
         // //     }
         // // }
 
-        this._inputs.push(new dot.Parameter('a', true, []));
+        // this._inputs.push(new dot.Parameter('a', true, []));
+        // this._nodes.push(new dot.Node(null, null, {name: 'b', type: 'nothing'}));
     }
 
     get name() {

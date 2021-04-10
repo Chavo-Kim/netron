@@ -788,17 +788,17 @@ darknet.Graph = class {
     }
 
     get inputs() {
-        console.log(this._inputs);
+        console.log("inputs", this._inputs);
         return this._inputs;
     }
 
     get outputs() {
-        console.log(this._outputs);
+        console.log("outputs", this._outputs);
         return this._outputs;
     }
 
     get nodes() {
-        console.log(this._nodes);
+        console.log("nodes", this._nodes);
         return this._nodes;
     }
 };
