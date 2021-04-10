@@ -139,14 +139,30 @@ dot.Graph = class {
             return token;
         }
 
+        const nextToken = () => {
+            return tokens[0];
+        }
+
         const scopeStack = [];
         while (tokens.length() > 0) {
             const token = consume();
+
+            // Todo: 처리
+            if (token.startsWith('rankdir'))
+                continue;
 
             if (token === 'digraph' || token === 'subgraph') {
                 const graphName = consume();
                 scopeStack.push(graphName);
                 consume('{');
+            }
+
+            const componentName = consume();
+            // edge
+            if (nextToken() === '->') {
+            }
+            // component description
+            else {
             }
         }
 
