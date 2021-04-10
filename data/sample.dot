@@ -1,0 +1,25 @@
+digraph DAG {
+rankdir=TB;
+subgraph cluster_graph0 {
+subgraph cluster_graph0_subgraph0 {
+graph0_subgraph0_operator0 [label=<
+        <TABLE BGCOLOR='#143b0bb8' BORDER='0' CELLBORDER='1' CELLSPACING='0'>
+        <TR><TD PORT='Input0'>Input0</TD></TR>
+        <TR>
+        <TD colspan='1'>O0] Quantize<BR ALIGN='left'/>name: input.1_quantized<BR ALIGN='left'/></TD>
+        </TR>
+        </TABLE>
+  >
+  xlabel="752640B"
+  shape="plaintext"];
+
+graph0_subgraph0_tensor0 [label="T0] in#0\lf32\l[1x3x224x224] NxCxHxW\lno buffer"
+  xlabel="602112 B / 602112 B"
+  shape="box"
+  style="filled, bold"
+  fillcolor="Snow1"];
+
+graph0_subgraph0_tensor0 -> graph0_subgraph0_operator0:Input0;
+}
+}
+}
