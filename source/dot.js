@@ -193,7 +193,8 @@ dot.Graph = class {
                 console.log('@@@#$#$@#$');
                 console.log(sections);
                 console.log(componentName);
-                sections.find(item => item.name === componentName).updateInput(new dot.Parameter(token, true));
+                const findSection = sections.find(item => item.name === componentName);
+                findSection ? findSection.updateInput(new dot.Parameter(token, true)) : sections.push(new dot.Section(componentName, token));
             }
             // component description
             else if (nextToken() == '['){
@@ -217,8 +218,7 @@ dot.Graph = class {
                 // raise error
             }
         }
-
-
+        sections.forEach(section => this._nodes.push(new Node(section)));
         //     const line = text.replace(/\s/g, '');
         //     if (line.length > 0) {
         //         switch (line[0]) {
@@ -309,11 +309,11 @@ dot.Argument = class {
 };
 
 dot.Section = class {
-    constructor(name) {
+    constructor(name, input) {
         this._name = name;
         this._chain = [];
         this._layer = {
-            inputs: [],
+            inputs: input ? [new dot.Parameter(input, true)] : [],
             weights: [],
             outputs: [
                 new dot.Parameter(name, true),
