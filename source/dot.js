@@ -147,7 +147,7 @@ dot.Graph = class {
                 consume();
                 //Todo: handle ':' token
                 const componentName = consume().split(':')[0];
-                sections.find(item => item.name === componentName).updateOutput(new dot.Parameter(token, true));
+                sections.find(item => item.name === componentName).updateInput(new dot.Parameter(token, true));
             }
             // component description
             else {
