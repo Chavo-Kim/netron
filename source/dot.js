@@ -285,7 +285,7 @@ dot.Section = class {
             inputs: [],
             weights: [],
             outputs: [
-                new Parameter(name, true),
+                new dot.Parameter(name, true),
             ]
         };
         this._line = 1;
