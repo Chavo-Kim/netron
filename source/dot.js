@@ -101,24 +101,6 @@ dot.Graph = class {
         const sections = [];
         const reader = base.TextReader.create(cfg);
         let lineNumber = 0;
-        const section = (name, input=null, output=null) => {
-            return ({
-                name: name,
-                chain: [],
-                layer: {
-                    inputs: input?[
-                        new dot.Parameter(input, true),
-                    ] : [],
-                    weights: [],
-                    outputs: output?[
-                        new dot.Parameter(output, true),
-                    ]: []
-                },
-                line: 1,
-                type: "convolutional",
-                options: {},
-            });
-        };
 
         const tokens = [];
         for (;;) {
@@ -163,6 +145,7 @@ dot.Graph = class {
             const componentName = consume();
             // edge
             if (nextToken() === '->') {
+
             }
             // component description
             else {
@@ -260,21 +243,25 @@ dot.Argument = class {
 };
 
 dot.Section = class {
-    constructor(name, input, output) {
+    constructor(name) {
         this._name = name;
         this._chain = [];
         this._layer = {
-            inputs: [
-                input && new dot.Parameter(input, true),
-            ],
+            inputs: [],
             weights: [],
-            outputs: [
-                output && new dot.Parameter(output, true),
-            ]
+            outputs: []
         };
         this._line = 1;
         this._type = "convolutional";
         this._options = {};
+    }
+
+    updateInput(input) {
+        this._inputs.push(new dot.Parameter(input, true));
+    }
+
+    updateOutput(output) {
+        this._outputs.push(new dot.Parameter(output, true));
     }
 
     get name() {
