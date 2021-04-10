@@ -120,34 +120,55 @@ dot.Graph = class {
             });
         };
 
+        const tokens = [];
         for (;;) {
             lineNumber++;
             const text = reader.read();
-            const tokens = tokenize(text);
-            console.log('tokens:')
-            console.log(tokens);
-
             if (text === undefined) {
                 break;
             }
-            const line = text.replace(/\s/g, '');
-            if (line.length > 0) {
-                switch (line[0]) {
-                    case 'd':
-                    case '}':
-                        break;
-                    default: {
-                        const nodes = line.replace(';', '').split('->');
-                        nodes.forEach((item, i) => sections.push(section(item, i && nodes[i - 1], i !== nodes.length - 1 && item)));
-                    }
-                }
+
+            tokenize(text).forEach(token => allTokens.push(token));
+        }
+
+        const consume = (expected) => {
+            const token = tokens.shift();
+            if (token === undefined || (expected && expected !== token)) {
+                // raise error?
+            }
+            return token;
+        }
+
+        const scopeStack = [];
+        while (tokens.length() > 0) {
+            const token = consume();
+
+            if (token === 'digraph' || token === 'subgraph') {
+                const graphName = consume();
+                scopeStack.push(graphName);
+                consume('{');
             }
         }
-        const isItemExists = (item) => {
-            return this._nodes.find(node => item.name === node.name) !== undefined;
-        };
-        console.log(sections);
-        sections.forEach(item => !isItemExists(item) && this._nodes.push(new dot.Node(item)));
+
+
+        //     const line = text.replace(/\s/g, '');
+        //     if (line.length > 0) {
+        //         switch (line[0]) {
+        //             case 'd':
+        //             case '}':
+        //                 break;
+        //             default: {
+        //                 const nodes = line.replace(';', '').split('->');
+        //                 nodes.forEach((item, i) => sections.push(section(item, i && nodes[i - 1], i !== nodes.length - 1 && item)));
+        //             }
+        //         }
+        //     }
+        // }
+        // const isItemExists = (item) => {
+        //     return this._nodes.find(node => item.name === node.name) !== undefined;
+        // };
+        // console.log(sections);
+        // sections.forEach(item => !isItemExists(item) && this._nodes.push(new dot.Node(item)));
     }
 
     get name() {
