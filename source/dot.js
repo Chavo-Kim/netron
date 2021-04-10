@@ -68,6 +68,26 @@ dot.Graph = class {
         this._outputs = [];
         this._nodes = [];
 
+        const section = {
+            name: "AA",
+            chain: [],
+            layer: {
+                inputs: [],
+                weights: [],
+                outputs: []
+            },
+            line: 1,
+            type: "convolutional",
+            options: {}
+        }
+
+        const node = new dot.Node(section)
+
+        this._nodes.push(node)
+
+        //Todo: 구현
+        return
+
         // read_cfg
         // const sections = [];
         // let section = null;
@@ -160,36 +180,36 @@ dot.Argument = class {
 
 dot.Node = class {
 
-    constructor(metadata, net, section) {
+    constructor(section) {
         this._name = section.name || '';
         this._location = section.line !== undefined ? section.line.toString() : undefined;
-        this._metadata = metadata;
+        // this._metadata = metadata;
         this._type = section.type;
         this._attributes = [];
         this._inputs = [];
         this._outputs = [];
         this._chain = [];
-        const layer = section.layer;
-        if (layer && layer.inputs && layer.inputs.length > 0) {
-            this._inputs.push(new dot.Parameter(layer.inputs.length <= 1 ? 'input' : 'inputs', true, layer.inputs));
-        }
-        if (layer && layer.weights && layer.weights.length > 0) {
-            this._inputs = this._inputs.concat(layer.weights);
-        }
-        if (layer && layer.outputs && layer.outputs.length > 0) {
-            this._outputs.push(new dot.Parameter(layer.outputs.length <= 1 ? 'output' : 'outputs', true, layer.outputs));
-        }
-        if (section.chain) {
-            for (const chain of section.chain) {
-                this._chain.push(new dot.Node(metadata, net, chain, ''));
-            }
-        }
-        const options = section.options;
-        if (options) {
-            for (const key of Object.keys(options)) {
-                this._attributes.push(new dot.Attribute(metadata.attribute(this._type, key), key, options[key]));
-            }
-        }
+        // const layer = section.layer;
+        // if (layer && layer.inputs && layer.inputs.length > 0) {
+        //     this._inputs.push(new dot.Parameter(layer.inputs.length <= 1 ? 'input' : 'inputs', true, layer.inputs));
+        // }
+        // if (layer && layer.weights && layer.weights.length > 0) {
+        //     this._inputs = this._inputs.concat(layer.weights);
+        // }
+        // if (layer && layer.outputs && layer.outputs.length > 0) {
+        //     this._outputs.push(new dot.Parameter(layer.outputs.length <= 1 ? 'output' : 'outputs', true, layer.outputs));
+        // }
+        // if (section.chain) {
+        //     for (const chain of section.chain) {
+        //         this._chain.push(new dot.Node(metadata, net, chain, ''));
+        //     }
+        // }
+        // const options = section.options;
+        // if (options) {
+        //     for (const key of Object.keys(options)) {
+        //         this._attributes.push(new dot.Attribute(metadata.attribute(this._type, key), key, options[key]));
+        //     }
+        // }
     }
 
     get name() {
@@ -205,6 +225,11 @@ dot.Node = class {
     }
 
     get metadata() {
+        return {
+            attributes: [],
+            category: "Layer",
+            name: "AA"
+        }
         return this._metadata.type(this._type);
     }
 

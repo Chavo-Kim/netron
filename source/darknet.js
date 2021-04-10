@@ -905,6 +905,8 @@ darknet.Node = class {
     }
 
     get metadata() {
+        console.log('meta')
+        console.log(this._metadata.type(this._type))
         return this._metadata.type(this._type);
     }
 
