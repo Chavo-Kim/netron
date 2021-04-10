@@ -3,7 +3,8 @@
 var dot = dot || {};
 var base = base || require('./base');
 
-function tokens(line) {
+function tokenize(line) {
+    if (!line) return [];
     line.trim().split(/[\s;]*/g);
 
     let result = [];
@@ -19,6 +20,7 @@ function tokens(line) {
                 append(token); token = '';
                 append('=');
                 break;
+            case ' ':
             case ';':
                 append(token); token = '';
                 break;
@@ -28,7 +30,7 @@ function tokens(line) {
     }
     append(token);
 
-    return tokens;
+    return result;
 }
 
 dot.ModelFactory = class {
@@ -121,6 +123,9 @@ dot.Graph = class {
         for (;;) {
             lineNumber++;
             const text = reader.read();
+            const tokens = tokenize(text);
+            console.log('tokens:')
+            console.log(tokens);
 
             if (text === undefined) {
                 break;
