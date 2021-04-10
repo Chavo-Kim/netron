@@ -218,7 +218,7 @@ dot.Graph = class {
                 // raise error
             }
         }
-        sections.forEach(section => this._nodes.push(new Node(section)));
+        sections.forEach(section => this._nodes.push(new dot.Node(section)));
         //     const line = text.replace(/\s/g, '');
         //     if (line.length > 0) {
         //         switch (line[0]) {
