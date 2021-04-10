@@ -49,7 +49,7 @@ dot.ModelFactory = class {
 
 dot.Model = class {
     constructor(metadata, cfg) {
-        this._graphs = [ new dot.Graph() ];
+        this._graphs = [ new dot.Graph(cfg) ];
     }
 
     get format() {
@@ -63,104 +63,58 @@ dot.Model = class {
 
 dot.Graph = class {
 
-    constructor() {
+    constructor(cfg) {
         this._inputs = [];
         this._outputs = [];
         this._nodes = [];
 
-        const section = {
-            name: "AA",
-            chain: [],
-            layer: {
-                inputs: [],
-                weights: [],
-                outputs: [
-                    new dot.Parameter('AA', true),
-                ]
-            },
-            line: 1,
-            type: "convolutional",
-            options: {}
+        const sections = [];
+        const reader = base.TextReader.create(cfg);
+        let lineNumber = 0;
+        const section = (name, input=null, output=null) => {
+            return ({
+                name: name,
+                chain: [],
+                layer: {
+                    inputs: input?[
+                        new dot.Parameter(input, true),
+                    ] : [],
+                    weights: [],
+                    outputs: output?[
+                        new dot.Parameter(output, true),
+                    ]: []
+                },
+                line: 1,
+                type: "convolutional",
+                options: {},
+            });
         };
 
-        const section2 = {
-            name: "BB",
-            chain: [],
-            layer: {
-                inputs: [
-                    new dot.Parameter('AA', true),
-                ],
-                weights: [],
-                outputs: [
-                    new dot.Parameter('BB', true),
-                ]
-            },
-            line: 1,
-            type: "convolutional",
-            options: {}
+        for (;;) {
+            lineNumber++;
+            const text = reader.read();
+
+            if (text === undefined) {
+                break;
+            }
+            const line = text.replace(/\s/g, '');
+            if (line.length > 0) {
+                switch (line[0]) {
+                    case 'd':
+                    case '}':
+                        break;
+                    default: {
+                        const nodes = line.replace(';', '').split('->');
+                        nodes.forEach((item, i) => sections.push(section(item, i && nodes[i - 1], i !== nodes.length - 1 && item)));
+                    }
+                }
+            }
+        }
+        const isItemExist = (item) => {
+            return this._nodes.reduce((acc, curr) => acc || (item.name === curr.name) ,false);
         };
-
-        const section3 = {
-            name: "CC",
-            chain: [],
-            layer: {
-                inputs: [
-                    new dot.Parameter('BB', true),
-                ],
-                weights: [],
-                outputs: [
-                    new dot.Parameter('CC', true),
-                ]
-            },
-            line: 1,
-            type: "convolutional",
-            options: {}
-        };
-
-        const section4 = {
-            name: "DD",
-            chain: [],
-            layer: {
-                inputs: [
-                    new dot.Parameter('BB', true),
-                ],
-                weights: [],
-                outputs: [
-                    new dot.Parameter('DD', true),
-                ]
-            },
-            line: 1,
-            type: "convolutional",
-            options: {}
-        };
-
-        this._nodes.push(new dot.Node(section));
-        this._nodes.push(new dot.Node(section2));
-        this._nodes.push(new dot.Node(section3));
-        this._nodes.push(new dot.Node(section4));
-
-        //Todo: 구현
-        return;
-
-        // read_cfg
-        // const sections = [];
-        // let section = null;
-        // // const reader = base.TextReader.create(cfg);
-        // // let lineNumber = 0;
-        // // for (;;) {
-        // //     lineNumber++;
-        // //     const text = reader.read();
-        // //     if (text === undefined) {
-        // //         break;
-        // //     }
-        // //     const line = text.replace(/\s/g, '');
-        // //
-        // //     if(line.length > 0) {
-        // //     }
-        // // }
-
-        // this._inputs.push(new dot.Parameter('a', true, []));
-        // this._nodes.push(new dot.Node(null, null, {name: 'b', type: 'nothing'}));
+        console.log(sections);
+        sections.forEach(item => !isItemExist(item) && this._nodes.push(new dot.Node(item)));
     }
 
     get name() {
@@ -229,6 +183,45 @@ dot.Argument = class {
 
     get initializer() {
         return this._initializer;
+    }
+};
+
+dot.Section = class {
+    constructor(name, input, output) {
+        this._name = name;
+        this._chain = [];
+        this._layer = {
+            inputs: [
+                input && new dot.Parameter(input, true),
+            ],
+            weights: [],
+            outputs: [
+                output && new dot.Parameter(output, true),
+            ]
+        };
+        this._line = 1;
+        this._type = "convolutional";
+        this._options = {};
+    }
+
+    get name() {
+        return this._name;
+    }
+
+    get chain() {
+        return this._chain;
+    }
+    get layer() {
+        return this._layer;
+    }
+    get line() {
+        return this._line;
+    }
+    get type() {
+        return this._type;
+    }
+    get options() {
+        return this._options;
     }
 };
 
