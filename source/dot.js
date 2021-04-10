@@ -3,6 +3,34 @@
 var dot = dot || {};
 var base = base || require('./base');
 
+function tokens(line) {
+    line.trim().split(/[\s;]*/g);
+
+    let result = [];
+    let token = '';
+
+    const append = (token) => {
+        if (token !== '') result.push(token);
+    }
+
+    for(const ch of line) {
+        switch(ch) {
+            case '=':
+                append(token); token = '';
+                append('=');
+                break;
+            case ';':
+                append(token); token = '';
+                break;
+            default:
+                token = token + ch;
+        }
+    }
+    append(token);
+
+    return tokens;
+}
+
 dot.ModelFactory = class {
 
     match(context) {
@@ -110,11 +138,11 @@ dot.Graph = class {
                 }
             }
         }
-        const isItemExist = (item) => {
-            return this._nodes.reduce((acc, curr) => acc || (item.name === curr.name) ,false);
+        const isItemExists = (item) => {
+            return this._nodes.find(node => item.name === node.name) !== undefined;
         };
         console.log(sections);
-        sections.forEach(item => !isItemExist(item) && this._nodes.push(new dot.Node(item)));
+        sections.forEach(item => !isItemExists(item) && this._nodes.push(new dot.Node(item)));
     }
 
     get name() {
