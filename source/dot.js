@@ -14,15 +14,30 @@ function tokenize(line) {
         if (token !== '') result.push(token);
     }
 
+    let doubleQuoted = false;
     for(const ch of line) {
+        if (doubleQuoted) {
+            if (ch === '"') {
+                append(token); token = '';
+            }
+            else {
+                token = token + ch;
+            }
+        }
+
         switch(ch) {
+            case '[':
+            case ']':
             case '=':
                 append(token); token = '';
-                append('=');
+                append(ch);
                 break;
             case ' ':
             case ';':
                 append(token); token = '';
+                break;
+            case '"':
+                doubleQuoted = true;
                 break;
             default:
                 token = token + ch;
@@ -110,7 +125,7 @@ dot.Graph = class {
                 break;
             }
 
-            tokenize(text).forEach(token => allTokens.push(token));
+            tokenize(text).forEach(token => tokens.push(token));
         }
 
         const consume = (expected) => {
@@ -126,7 +141,7 @@ dot.Graph = class {
         }
 
         const scopeStack = [];
-        while (tokens.length() > 0) {
+        while (tokens.length > 0) {
             const token = consume();
 
             // Todo: 처리
@@ -142,6 +157,7 @@ dot.Graph = class {
                 consume('{');
             }
 
+            const sectionName = token;
             // edge
             if (nextToken() === '->') {
                 consume();
@@ -150,7 +166,24 @@ dot.Graph = class {
                 sections.find(item => item.name === componentName).updateOutput(new dot.Parameter(token, true));
             }
             // component description
+            else if (nextToken() == '['){
+                console.log('!!!!!');
+                sections.push(new dot.Section(sectionName));
+                consume('[');
+                const properties = {};
+                while (nextToken() != ']') {
+                    const key = consume();
+                    consume('=');
+                    const value = consume();
+                    properties[key] = value;
+                }
+                consume(']');
+                console.log(`property for ${sectionName}`);
+                console.log(properties);
+            }
             else {
+                console.log('err!!');
+                // raise error
             }
         }
 
