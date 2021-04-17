@@ -43,6 +43,7 @@ function tokenize(line) {
             case '[':
             case ']':
             case '=':
+            case ':':
                 append(token); token = '';
                 append(ch);
                 break;
@@ -189,8 +190,11 @@ dot.Graph = class {
             // edge
             if (nextToken() === '->') {
                 consume();
-                //Todo: handle ':' token
-                const componentName = consume().split(':')[0];
+                const componentName = consume();
+                if (nextToken() === ':') {
+                    consume(':');
+                    consume();
+                }
                 const findSection = sections.find(item => item.name === componentName);
                 findSection && findSection.updateInput(token);
             }
@@ -220,6 +224,16 @@ dot.Graph = class {
                     const regex = /\>O[0-9]+\] (.*?)\</;
                     type = label.match(regex)[1];
                     types.add(type);
+
+                    const separator = `<BR ALIGN='left'/>`
+                    const opts = label.split(separator).slice(1, -1);
+
+                    // Todo: 괄호 파싱
+
+                    for (const opt of opts) {
+                        const res = opt.split(':');
+                        options[res[0]] = res[1];
+                    }
                 }
                 else {
                     type = "Tensor";
@@ -231,6 +245,7 @@ dot.Graph = class {
                         options['buffer'] = label.match(regex)[1];
                     }
                 }
+                options['xlabel'] = properties['xlabel']
 
                 const section = new dot.Section(sectionName, type);
                 for (const key in options) {
