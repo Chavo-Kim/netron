@@ -219,6 +219,7 @@ dot.Graph = class {
                 // HTML case
                 let type;
                 const label = properties['label'];
+                // Todo: label 없는 경우 handle
                 const options = {}
                 if (label.startsWith('<')) {
                     const regex = /\>O[0-9]+\] (.*?)\</;
@@ -242,6 +243,7 @@ dot.Graph = class {
                     }
                     else {
                         const regex = /buffer ([0-9]+)B/;
+                        // Todo: match 안되는 경우 handle
                         options['buffer'] = label.match(regex)[1];
                     }
                 }
