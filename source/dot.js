@@ -213,7 +213,7 @@ dot.Graph = class {
                 
                 // HTML case
                 if (properties['label'].startsWith('<')) {
-                    const regex = /\>O[0-9]+\] (.*)?\</g;
+                    const regex = /\>O[0-9]+\] (.*?)\</g;
                     const matchRes = properties['label'].match(regex);
                     console.log('!@#$!@#$!@#$')
                     console.log(matchRes);
