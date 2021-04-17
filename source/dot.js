@@ -155,11 +155,11 @@ dot.Graph = class {
                 // raise error?
             }
             return token;
-        }
+        };
 
         const nextToken = () => {
             return tokens[0];
-        }
+        };
 
         const scopeStack = [];
         while (tokens.length > 0) {
@@ -190,9 +190,6 @@ dot.Graph = class {
                 consume();
                 //Todo: handle ':' token
                 const componentName = consume().split(':')[0];
-                console.log('@@@#$#$@#$');
-                console.log(sections);
-                console.log(componentName);
                 const findSection = sections.find(item => item.name === componentName);
                 findSection ? findSection.updateInput(token) : sections.push(new dot.Section(componentName, "convolutional", token));
             }
@@ -227,29 +224,10 @@ dot.Graph = class {
                 !findSection && sections.push(new dot.Section(sectionName, properties['label']));
             }
             else {
-                console.log('err!!');
                 // raise error
             }
         }
         sections.forEach(section => this._nodes.push(new dot.Node(section)));
-        //     const line = text.replace(/\s/g, '');
-        //     if (line.length > 0) {
-        //         switch (line[0]) {
-        //             case 'd':
-        //             case '}':
-        //                 break;
-        //             default: {
-        //                 const nodes = line.replace(';', '').split('->');
-        //                 nodes.forEach((item, i) => sections.push(section(item, i && nodes[i - 1], i !== nodes.length - 1 && item)));
-        //             }
-        //         }
-        //     }
-        // }
-        // const isItemExists = (item) => {
-        //     return this._nodes.find(node => item.name === node.name) !== undefined;
-        // };
-        // console.log(sections);
-        // sections.forEach(item => !isItemExists(item) && this._nodes.push(new dot.Node(item)));
     }
 
     get name() {
