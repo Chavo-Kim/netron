@@ -194,14 +194,12 @@ dot.Graph = class {
                 console.log(sections);
                 console.log(componentName);
                 const findSection = sections.find(item => item.name === componentName);
-                findSection ? findSection.updateInput(token) : sections.push(new dot.Section(componentName, token));
+                findSection ? findSection.updateInput(token) : sections.push(new dot.Section(componentName, "convolutional", token));
             }
             // component description
             else if (nextToken() == '['){
                 console.log('!!!!!');
                 console.log(sectionName);
-                const findSection = sections.find(item => item.name === sectionName);
-                !findSection && sections.push(new dot.Section(sectionName));
                 consume('[');
                 const properties = {};
                 while (nextToken() != ']') {
@@ -213,6 +211,20 @@ dot.Graph = class {
                 consume(']');
                 console.log(`property for ${sectionName}`);
                 console.log(properties);
+
+                const findSection = sections.find(item => item.name === sectionName);
+                
+                // HTML case
+                if (properties['label'].startsWith('<')) {
+                    const regex = /\>O[0-9]+\] (.*)?\</g;
+                    const matchRes = properties['label'].match(regex);
+                    console.log('!@#$!@#$!@#$')
+                    console.log(matchRes);
+                }
+                else {
+                }
+
+                !findSection && sections.push(new dot.Section(sectionName, properties['label']));
             }
             else {
                 console.log('err!!');
@@ -310,7 +322,7 @@ dot.Argument = class {
 };
 
 dot.Section = class {
-    constructor(name, input) {
+    constructor(name, type, input) {
         this._name = name;
         this._chain = [];
         this._layer = {
@@ -321,7 +333,7 @@ dot.Section = class {
             ]
         };
         this._line = 1;
-        this._type = "convolutional";
+        this._type = type;
         this._options = {};
     }
 
