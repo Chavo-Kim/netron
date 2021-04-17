@@ -493,6 +493,7 @@ onnx.Graph = class {
     }
 
     get nodes() {
+        console.log('nodes', this._nodes);
         return this._nodes;
     }
 

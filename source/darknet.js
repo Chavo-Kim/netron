@@ -870,6 +870,7 @@ darknet.Node = class {
         this._outputs = [];
         this._chain = [];
         const layer = section.layer;
+        console.log("section layer", section.layer);
         if (layer && layer.inputs && layer.inputs.length > 0) {
             this._inputs.push(new darknet.Parameter(layer.inputs.length <= 1 ? 'input' : 'inputs', true, layer.inputs));
         }

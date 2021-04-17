@@ -224,7 +224,7 @@ dot.Graph = class {
                 else {
                     type = "Tensor";
                     if (label.includes("no buffer")) {
-                        options['buffer'] = 0
+                        options['buffer'] = 0;
                     }
                     else {
                         const regex = /buffer ([0-9]+)B/;
@@ -232,7 +232,7 @@ dot.Graph = class {
                     }
                 }
 
-                const section = new dot.Section(sectionName, type);
+                const section = new dot.Section(sectionName, type, null);
                 for (const key in options) {
                     section.updateOption(key, options[key]);
                 }
@@ -265,6 +265,7 @@ dot.Graph = class {
     }
 
     get nodes() {
+        console.log('nodes', this._nodes);
         return this._nodes;
     }
 };
@@ -316,15 +317,61 @@ dot.Argument = class {
     }
 };
 
+dot.TensorType = class {
+
+    constructor(dataType, shape) {
+        this._dataType = dataType;
+        this._shape = shape;
+    }
+
+    get dataType() {
+        return this._dataType;
+    }
+
+    get shape() {
+        return this._shape;
+    }
+
+    toString() {
+        return (this._dataType || '?') + this._shape.toString();
+    }
+};
+
+dot.TensorShape = class {
+
+    constructor(dimensions) {
+        if (dimensions.some((dimension) => dimension === 0 || dimension === undefined || isNaN(dimension))) {
+            throw new dot.Error("Invalid tensor shape '" + JSON.stringify(dimensions) + "'.");
+        }
+        this._dimensions = dimensions;
+    }
+
+    get dimensions() {
+        return this._dimensions;
+    }
+
+    toString() {
+        if (this._dimensions) {
+            if (this._dimensions.length == 0) {
+                return '';
+            }
+            return '[' + this._dimensions.map((dimension) => dimension.toString()).join(',') + ']';
+        }
+        return '';
+    }
+};
+
+
+
 dot.Section = class {
-    constructor(name, type, input) {
+    constructor(name, type, inputs) {
         this._name = name;
         this._chain = [];
         this._layer = {
-            inputs: input ? [new dot.Parameter(input, true)] : [],
+            inputs: inputs ? [...inputs] : [],
             weights: [],
             outputs: [
-                new dot.Parameter(name, true),
+                new dot.Parameter(name, true, null),
             ]
         };
         this._line = 1;
@@ -333,11 +380,11 @@ dot.Section = class {
     }
 
     updateInput(input) {
-        this._layer.inputs.push(new dot.Parameter(input, true));
+        this._layer.inputs.push(new dot.Parameter(input, true, null));
     }
 
     updateOutput(output) {
-        this._layer._outputs.push(new dot.Parameter(output, true));
+        this._layer._outputs.push(new dot.Parameter(output, true, null));
     }
 
     updateOption(key, value) {
@@ -380,6 +427,11 @@ dot.Node = class {
         const layer = section.layer;
         if (layer && layer.inputs && layer.inputs.length > 0) {
             this._inputs.push(new dot.Parameter(layer.inputs.length <= 1 ? 'input' : 'inputs', true, layer.inputs));
+            this._inputs.push(new dot.Parameter('1', true, [new dot.Argument('b', new dot.TensorType('float32', new dot.TensorShape([1, 13, 13])), null)]));
+            this._inputs.push(new dot.Parameter('2', true, [new dot.Argument('a', new dot.TensorType('float32', new dot.TensorShape([1, 13, 15, 13])), null)]));
+            this._inputs.push(new dot.Parameter('3', true, [new dot.Argument('d', new dot.TensorType('float32', new dot.TensorShape([13])), null)]));
+            this._inputs.push(new dot.Parameter('4', true, [new dot.Argument('q', new dot.TensorType('float32', new dot.TensorShape([1, 13])), null)]));
+            this._inputs.push(new dot.Parameter('5', true, [new dot.Argument('z', new dot.TensorType('float32', new dot.TensorShape([1, 13, 13, 1, 1])), null)]));
         }
         // if (layer && layer.weights && layer.weights.length > 0) {
         //     this._inputs = this._inputs.concat(layer.weights);
