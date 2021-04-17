@@ -111,7 +111,7 @@ dot.ModelFactory = class {
 
 dot.Model = class {
     constructor(metadata, cfg) {
-        this._graphs = [ new dot.Graph(cfg) ];
+        this._graphs = [ new dot.Graph(metadata, cfg) ];
     }
 
     get format() {
@@ -125,7 +125,7 @@ dot.Model = class {
 
 dot.Graph = class {
 
-    constructor(cfg) {
+    constructor(metadata, cfg) {
         this._inputs = [];
         this._outputs = [];
         this._nodes = [];
@@ -162,6 +162,7 @@ dot.Graph = class {
         };
 
         const scopeStack = [];
+        const types = new Set();
         while (tokens.length > 0) {
             const token = consume();
 
@@ -191,7 +192,7 @@ dot.Graph = class {
                 //Todo: handle ':' token
                 const componentName = consume().split(':')[0];
                 const findSection = sections.find(item => item.name === componentName);
-                findSection ? findSection.updateInput(token) : sections.push(new dot.Section(componentName, "convolutional", token));
+                findSection && findSection.updateInput(token);
             }
             // component description
             else if (nextToken() == '['){
@@ -210,7 +211,7 @@ dot.Graph = class {
                 console.log(properties);
 
                 const findSection = sections.find(item => item.name === sectionName);
-                
+
                 // HTML case
                 let type;
                 const label = properties['label'];
@@ -218,6 +219,7 @@ dot.Graph = class {
                 if (label.startsWith('<')) {
                     const regex = /\>O[0-9]+\] (.*?)\</;
                     type = label.match(regex)[1];
+                    types.add(type);
                 }
                 else {
                     type = "Tensor";
@@ -234,13 +236,15 @@ dot.Graph = class {
                 for (const key in options) {
                     section.updateOption(key, options[key]);
                 }
+                //if section is already exist, doesn't push to sections
                 !findSection && sections.push(section);
             }
             else {
                 // raise error
             }
         }
-        sections.forEach(section => this._nodes.push(new dot.Node(section)));
+        console.log(types);
+        sections.forEach(section => this._nodes.push(new dot.Node(metadata, section)));
     }
 
     get name() {
@@ -363,11 +367,12 @@ dot.Section = class {
 
 dot.Node = class {
 
-    constructor(section) {
+    constructor(metadata, section) {
         this._name = section.name || '';
         this._location = section.line !== undefined ? section.line.toString() : undefined;
         // this._metadata = metadata;
         this._type = section.type;
+        this._metadata = metadata;
         this._attributes = [];
         this._inputs = [];
         this._outputs = [];
@@ -408,11 +413,6 @@ dot.Node = class {
     }
 
     get metadata() {
-        return {
-            attributes: [],
-            category: "Layer",
-            name: "AA"
-        }
         return this._metadata.type(this._type);
     }
 
@@ -497,7 +497,7 @@ dot.Metadata = class {
         if (dot.Metadata._metadata) {
             return Promise.resolve(dot.Metadata._metadata);
         }
-        return context.request('darknet-metadata.json', 'utf-8', null).then((data) => {
+        return context.request('dot-metadata.json', 'utf-8', null).then((data) => {
             dot.Metadata._metadata = new dot.Metadata(data);
             return dot.Metadata._metadata;
         }).catch(() => {

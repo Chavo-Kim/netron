@@ -4,7 +4,22 @@
     "schema": {
       "category": "Layer",
       "attributes": [
-
+      ]
+    }
+  },
+  {
+    "name": "Quantize",
+    "schema": {
+      "category": "Layer",
+      "attributes": [
+      ]
+    }
+  },
+  {
+    "name": "Reshape",
+    "schema": {
+      "category": "Shape",
+      "attributes": [
       ]
     }
   },
@@ -13,7 +28,22 @@
     "schema": {
       "category": "Pool",
       "attributes": [
-
+      ]
+    }
+  },
+  {
+    "name": "OnnxRuntime",
+    "schema": {
+      "category": "Layer",
+      "attributes": [
+      ]
+    }
+  },
+  {
+    "name": "Dequantize",
+    "schema": {
+      "category": "Layer",
+      "attributes": [
       ]
     }
   }
