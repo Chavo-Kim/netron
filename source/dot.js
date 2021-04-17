@@ -212,16 +212,16 @@ dot.Graph = class {
                 const findSection = sections.find(item => item.name === sectionName);
                 
                 // HTML case
+                let type;
                 if (properties['label'].startsWith('<')) {
-                    const regex = /\>O[0-9]+\] (.*?)\</g;
-                    const matchRes = properties['label'].match(regex);
-                    console.log('!@#$!@#$!@#$')
-                    console.log(matchRes);
+                    const regex = /\>O[0-9]+\] (.*?)\</;
+                    type = properties['label'].match(regex)[1];
                 }
                 else {
+                    type = "convolutional";
                 }
 
-                !findSection && sections.push(new dot.Section(sectionName, properties['label']));
+                !findSection && sections.push(new dot.Section(sectionName, type));
             }
             else {
                 // raise error
