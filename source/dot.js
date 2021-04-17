@@ -213,15 +213,28 @@ dot.Graph = class {
                 
                 // HTML case
                 let type;
-                if (properties['label'].startsWith('<')) {
+                const label = properties['label'];
+                const options = {}
+                if (label.startsWith('<')) {
                     const regex = /\>O[0-9]+\] (.*?)\</;
-                    type = properties['label'].match(regex)[1];
+                    type = label.match(regex)[1];
                 }
                 else {
-                    type = "convolutional";
+                    type = "Tensor";
+                    if (label.includes("no buffer")) {
+                        options['buffer'] = 0
+                    }
+                    else {
+                        const regex = /buffer ([0-9]+)B/;
+                        options['buffer'] = label.match(regex)[1];
+                    }
                 }
 
-                !findSection && sections.push(new dot.Section(sectionName, type));
+                const section = new dot.Section(sectionName, type);
+                for (const key in options) {
+                    section.updateOption(key, options[key]);
+                }
+                !findSection && sections.push(section);
             }
             else {
                 // raise error
@@ -323,6 +336,10 @@ dot.Section = class {
         this._layer._outputs.push(new dot.Parameter(output, true));
     }
 
+    updateOption(key, value) {
+        this._options[key] = value;
+    }
+
     get name() {
         return this._name;
     }
@@ -370,12 +387,12 @@ dot.Node = class {
         //         this._chain.push(new dot.Node(metadata, net, chain, ''));
         //     }
         // }
-        // const options = section.options;
-        // if (options) {
-        //     for (const key of Object.keys(options)) {
-        //         this._attributes.push(new dot.Attribute(metadata.attribute(this._type, key), key, options[key]));
-        //     }
-        // }
+        const options = section.options;
+        if (options) {
+            for (const key of Object.keys(options)) {
+                this._attributes.push(new dot.Attribute({}, key, options[key]));
+            }
+        }
     }
 
     get name() {
