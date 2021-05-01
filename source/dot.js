@@ -543,11 +543,11 @@ dot.Node = class {
         const layer = section.layer;
         if (layer && layer.inputs && layer.inputs.length > 0) {
             this._inputs.push(new dot.Parameter(layer.inputs.length <= 1 ? 'input' : 'inputs', true, layer.inputs));
-            this._inputs.push(new dot.Parameter('1', true, [new dot.Argument('b', new dot.TensorType('float32', new dot.TensorShape([1, 13, 13])), null)]));
-            this._inputs.push(new dot.Parameter('2', true, [new dot.Argument('a', new dot.TensorType('float32', new dot.TensorShape([1, 13, 15, 13])), null)]));
-            this._inputs.push(new dot.Parameter('3', true, [new dot.Argument('d', new dot.TensorType('float32', new dot.TensorShape([13])), null)]));
-            this._inputs.push(new dot.Parameter('4', true, [new dot.Argument('q', new dot.TensorType('float32', new dot.TensorShape([1, 13])), null)]));
-            this._inputs.push(new dot.Parameter('5', true, [new dot.Argument('z', new dot.TensorType('float32', new dot.TensorShape([1, 13, 13, 1, 1])), null)]));
+            this._inputs.push(new dot.Parameter('1', true, [new dot.Argument('b', null, new dot.Tensor(new dot.TensorType('float32', new dot.TensorShape([1, 13, 13])), null))]));
+            this._inputs.push(new dot.Parameter('2', true, [new dot.Argument('q', null, new dot.Tensor(new dot.TensorType('float32', new dot.TensorShape([1, 13, 50, 13])), null))]));
+            this._inputs.push(new dot.Parameter('3', true, [new dot.Argument('c', null, new dot.Tensor(new dot.TensorType('float32', new dot.TensorShape([13])), null))]));
+            this._inputs.push(new dot.Parameter('4', true, [new dot.Argument('s', null, new dot.Tensor(new dot.TensorType('float32', new dot.TensorShape([1, 25, 40, 13, 13])), null))]));
+            this._inputs.push(new dot.Parameter('5', true, [new dot.Argument('a', null, new dot.Tensor(new dot.TensorType('float32', new dot.TensorShape([1, 13])), null))]));
         }
         // if (layer && layer.weights && layer.weights.length > 0) {
         //     this._inputs = this._inputs.concat(layer.weights);
