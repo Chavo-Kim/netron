@@ -131,7 +131,7 @@ dot.Graph = class {
         this._outputs = [];
         this._nodes = [];
 
-        const sections = [];
+        const sections = new Map();
         const reader = base.TextReader.create(cfg);
         let lineNumber = 0;
 
@@ -147,12 +147,11 @@ dot.Graph = class {
         }
 
         const tokens = tokenize(allText);
-        console.log("####");
-        console.log(tokens);
 
         const consume = (expected) => {
             const token = tokens.shift();
             if (token === undefined || (expected && expected !== token)) {
+                throw new Error(`Unexpected token ${token}. Expected was: ${expected}`);
                 // raise error?
             }
             return token;
@@ -195,7 +194,7 @@ dot.Graph = class {
                     consume(':');
                     consume();
                 }
-                const findSection = sections.find(item => item.name === componentName);
+                const findSection = sections.get(componentName);
                 findSection && findSection.updateInput(token);
             }
             // component description
@@ -214,16 +213,24 @@ dot.Graph = class {
                 console.log(`property for ${sectionName}`);
                 console.log(properties);
 
-                const findSection = sections.find(item => item.name === sectionName);
-
-                // HTML case
+                // HTML caseions.
                 let type;
                 const label = properties['label'];
-                // Todo: label 없는 경우 handle
                 const options = {}
+
+                // Todo: label 없는 경우 handle
+                if (!label) continue;
+
                 if (label.startsWith('<')) {
                     const regex = /\>O[0-9]+\] (.*?)\</;
-                    type = label.match(regex)[1];
+                    const matchResult = label.match(regex);
+                    if (!matchResult) {
+                        type = `unknown type`;
+                        // throw new Error("???");
+                    }
+                    else {
+                        type = matchResult[1];
+                    }
                     types.add(type);
 
                     const separator = `<BR ALIGN='left'/>`
@@ -231,10 +238,11 @@ dot.Graph = class {
 
                     // Todo: 괄호 파싱
 
-                    for (const opt of opts) {
-                        const res = opt.split(':');
-                        options[res[0]] = res[1];
-                    }
+                    // options parsing
+                    // for (const opt of opts) {
+                    //     const res = opt.split(':');
+                    //     options[res[0]] = res[1];
+                    // }
                 }
                 else {
                     type = "Tensor";
@@ -244,7 +252,13 @@ dot.Graph = class {
                     else {
                         const regex = /buffer ([0-9]+)B/;
                         // Todo: match 안되는 경우 handle
-                        options['buffer'] = label.match(regex)[1];
+                        const mResult = label.match(regex);
+                        if (!mResult) {
+                            // throw new Error(`unknown label ${label}`);
+                        }
+                        else {
+                            options['buffer'] = label.match(regex)[1];
+                        }
                     }
                 }
                 options['xlabel'] = properties['xlabel']
@@ -254,7 +268,9 @@ dot.Graph = class {
                     section.updateOption(key, options[key]);
                 }
                 //if section is already exist, doesn't push to sections
-                !findSection && sections.push(section);
+                if (!sections.has(sectionName)) {
+                    sections.set(sectionName, section);
+                }
             }
             else {
                 // raise error
