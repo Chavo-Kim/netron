@@ -165,6 +165,7 @@ darknet.Graph = class {
         const load_weights = (name, shape, visible) => {
             const data = weights ? weights.read(4 * shape.reduce((a, b) => a * b)) : null;
             const type = new darknet.TensorType('float32', make_shape(shape, 'load_weights'));
+            console.log(type, data);
             const initializer = new darknet.Tensor(type, data);
             const argument = new darknet.Argument('', null, initializer);
             return new darknet.Parameter(name, visible === false ? false : true, [ argument ]);
@@ -906,8 +907,6 @@ darknet.Node = class {
     }
 
     get metadata() {
-        console.log('meta')
-        console.log(this._metadata.type(this._type))
         return this._metadata.type(this._type);
     }
 

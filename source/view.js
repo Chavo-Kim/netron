@@ -587,6 +587,7 @@ view.View = class {
                         let hiddenInitializers = false;
                         if (self._showInitializers) {
                             for (const input of node.inputs) {
+                                console.log("input", input, input.arguments);
                                 if (input.visible && input.arguments.length === 1 && input.arguments[0].initializer != null) {
                                     initializers.push(input);
                                 }
@@ -606,8 +607,10 @@ view.View = class {
                                 return (au < bu) ? -1 : (au > bu) ? 1 : 0;
                             });
                         }
+                        console.log("why not?", initializers);
                         if (initializers.length > 0 || hiddenInitializers || sortedAttributes.length > 0) {
                             const block = element.block('list');
+                            console.log("list here!");
                             block.handler = () => {
                                 self.showNodeProperties(node);
                             };
