@@ -194,6 +194,9 @@ dot.Graph = class {
                     consume(':');
                     consume();
                 }
+                if (nextToken() === '[') {
+                    while(consume() !== ']');
+                }
                 const findSection = sections.get(componentName);
                 findSection && findSection.updateInput(token);
             }
@@ -218,15 +221,14 @@ dot.Graph = class {
                 const label = properties['label'];
                 const options = {}
 
-                // Todo: label 없는 경우 handle
-                if (!label) continue;
-
-                if (label.startsWith('<')) {
-                    const regex = /\>O[0-9]+\] (.*?)\</;
+                if (label === undefined) {
+                    type = null;
+                }
+                else if (label.startsWith('<')) {
+                    const regex = /\<TD colspan='[0-9]+'\>(O[0-9]+\] )?(.*?)\</;
                     const matchResult = label.match(regex);
                     if (!matchResult) {
-                        type = `unknown type`;
-                        // throw new Error("???");
+                        throw new Error(`Unknown expected label format. label: ${label}`);
                     }
                     else {
                         type = matchResult[1];
@@ -264,20 +266,34 @@ dot.Graph = class {
                 options['xlabel'] = properties['xlabel']
                 options['label'] = properties['label']
 
-                const section = new dot.Section(sectionName, type, null);
+                if (!properties['xlabel'])
+                    options['xlabel'] = properties['xlabel']
+
+                //if section is already exist, doesn't push to sections
+                if (!sections.has(sectionName)) {
+                    sections.set(sectionName, new dot.Section(sectionName, type, null));
+                }
+
+                const section = sections.get(sectionName);
                 for (const key in options) {
                     section.updateOption(key, options[key]);
                 }
-                //if section is already exist, doesn't push to sections
-                if (!sections.has(sectionName)) {
-                    sections.set(sectionName, section);
+
+                if (type !== null) {
+                    section.updateType(type);
                 }
             }
             else {
-                // raise error
+                // graph label
+                if (token === 'label' && nextToken() === '=') {
+                    consume('=');
+                    const graphLabel = consume();
+                }
+                else {
+                    throw new Error(`Unexpected token ${token}`);
+                }
             }
         }
-        console.log(types);
         sections.forEach(section => this._nodes.push(new dot.Node(metadata, section)));
     }
 
@@ -506,6 +522,10 @@ dot.Section = class {
 
     updateOption(key, value) {
         this._options[key] = value;
+    }
+
+    updateType(type) {
+        this._type = type;
     }
 
     get name() {
