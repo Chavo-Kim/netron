@@ -231,7 +231,7 @@ dot.Graph = class {
                         throw new Error(`Unknown expected label format. label: ${label}`);
                     }
                     else {
-                        type = matchResult[1];
+                        type = matchResult[2];
                     }
                     types.add(type);
 
