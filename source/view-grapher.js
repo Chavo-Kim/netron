@@ -462,7 +462,44 @@ grapher.NodeElement.List = class {
         this._element.appendChild(this._backgroundElement);
         this._element.setAttribute('transform', 'translate(' + x + ',' + y + ')');
         this._height += 3;
-        for (const item of this._items) {
+
+        const html = 'T18] \\li8(axes: [], <(m:0, M:0.999998040497303) x 1>)\\l(s: 0.0039215609431266785, o: -128) x 1\\l[1x3x224x224] NxCxHxW\\lno buffer"\n' +
+            '  xlabel="150528 B / 151552 B';
+        const textList = html.split('\\l');
+
+        // for (const item of this._items) {
+        //     const yPadding = 1;
+        //     const xPadding = 6;
+        //     const textElement = this.createElement('text');
+        //     if (item.id) {
+        //         textElement.setAttribute('id', item.id);
+        //     }
+        //     textElement.setAttribute('xml:space', 'preserve');
+        //     this._element.appendChild(textElement);
+        //     if (item.tooltip) {
+        //         const titleElement = this.createElement('title');
+        //         titleElement.textContent = item.tooltip;
+        //         textElement.appendChild(titleElement);
+        //     }
+        //     const textNameElement = this.createElement('tspan');
+        //     textNameElement.textContent = item.name;
+        //     if (item.separator.trim() != '=') {
+        //         textNameElement.style.fontWeight = 'bold';
+        //     }
+        //     textElement.appendChild(textNameElement);
+        //     const textValueElement = this.createElement('tspan');
+        //     textValueElement.textContent = item.separator + item.value;
+        //     textElement.appendChild(textValueElement);
+        //     const size = textElement.getBBox();
+        //     const width = xPadding + size.width + xPadding;
+        //     if (this._width < width) {
+        //         this._width = width;
+        //     }
+        //     textElement.setAttribute('x', x + xPadding);
+        //     textElement.setAttribute('y', this._height + yPadding - size.y);
+        //     this._height += yPadding + size.height + yPadding;
+        // }
+        for (const item of textList) {
             const yPadding = 1;
             const xPadding = 6;
             const textElement = this.createElement('text');
@@ -471,20 +508,7 @@ grapher.NodeElement.List = class {
             }
             textElement.setAttribute('xml:space', 'preserve');
             this._element.appendChild(textElement);
-            if (item.tooltip) {
-                const titleElement = this.createElement('title');
-                titleElement.textContent = item.tooltip;
-                textElement.appendChild(titleElement);
-            }
-            const textNameElement = this.createElement('tspan');
-            textNameElement.textContent = item.name;
-            if (item.separator.trim() != '=') {
-                textNameElement.style.fontWeight = 'bold';
-            }
-            textElement.appendChild(textNameElement);
-            const textValueElement = this.createElement('tspan');
-            textValueElement.textContent = item.separator + item.value;
-            textElement.appendChild(textValueElement);
+            textElement.innerHTML = item;
             const size = textElement.getBBox();
             const width = xPadding + size.width + xPadding;
             if (this._width < width) {
