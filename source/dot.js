@@ -255,19 +255,18 @@ dot.Graph = class {
                         const regex = /buffer ([0-9]+)B/;
                         // Todo: match 안되는 경우 handle
                         const mResult = label.match(regex);
-                        if (!mResult) {
-                            // throw new Error(`unknown label ${label}`);
-                        }
-                        else {
-                            options['buffer'] = label.match(regex)[1];
+
+                        if (mResult) {
+                            options['buffer'] = mResult[1];
                         }
                     }
                 }
-                options['xlabel'] = properties['xlabel']
-                options['label'] = properties['label']
 
                 if (!properties['xlabel'])
                     options['xlabel'] = properties['xlabel']
+
+                if (properties['label'])
+                    options['label'] = properties['label']
 
                 //if section is already exist, doesn't push to sections
                 if (!sections.has(sectionName)) {
