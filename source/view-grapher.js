@@ -463,42 +463,22 @@ grapher.NodeElement.List = class {
         this._element.setAttribute('transform', 'translate(' + x + ',' + y + ')');
         this._height += 3;
 
-        const html = 'T18] \\li8(axes: [], <(m:0, M:0.999998040497303) x 1>)\\l(s: 0.0039215609431266785, o: -128) x 1\\l[1x3x224x224] NxCxHxW\\lno buffer"\n' +
-            '  xlabel="150528 B / 151552 B';
-        const textList = html.split('\\l');
+        let label = this._items[0].name;
+        let textList;
+        console.log("edge case", label);
 
-        // for (const item of this._items) {
-        //     const yPadding = 1;
-        //     const xPadding = 6;
-        //     const textElement = this.createElement('text');
-        //     if (item.id) {
-        //         textElement.setAttribute('id', item.id);
-        //     }
-        //     textElement.setAttribute('xml:space', 'preserve');
-        //     this._element.appendChild(textElement);
-        //     if (item.tooltip) {
-        //         const titleElement = this.createElement('title');
-        //         titleElement.textContent = item.tooltip;
-        //         textElement.appendChild(titleElement);
-        //     }
-        //     const textNameElement = this.createElement('tspan');
-        //     textNameElement.textContent = item.name;
-        //     if (item.separator.trim() != '=') {
-        //         textNameElement.style.fontWeight = 'bold';
-        //     }
-        //     textElement.appendChild(textNameElement);
-        //     const textValueElement = this.createElement('tspan');
-        //     textValueElement.textContent = item.separator + item.value;
-        //     textElement.appendChild(textValueElement);
-        //     const size = textElement.getBBox();
-        //     const width = xPadding + size.width + xPadding;
-        //     if (this._width < width) {
-        //         this._width = width;
-        //     }
-        //     textElement.setAttribute('x', x + xPadding);
-        //     textElement.setAttribute('y', this._height + yPadding - size.y);
-        //     this._height += yPadding + size.height + yPadding;
-        // }
+        // HTML case
+        if(label.startsWith('<')) {
+            label = label.split(/<TD colspan='[0-9]'>/)[1];
+            console.log("remove front", label);
+            label = label.split('</TD>')[0];
+            console.log("remove back front", label);
+            textList = label.split("<BR ALIGN='left'/>");
+        }
+        else {
+            textList = label.split('\\l');
+        }
+
         for (const item of textList) {
             const yPadding = 1;
             const xPadding = 6;

@@ -644,6 +644,8 @@ view.View = class {
                                         }
                                     }
                                 }
+
+                                //add block
                                 block.add(argument.name ? 'initializer-' + argument.name : '', initializer.name, shape, type ? type.toString() : '', separator);
                             }
                             if (hiddenInitializers) {

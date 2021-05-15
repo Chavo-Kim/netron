@@ -262,6 +262,7 @@ dot.Graph = class {
                     }
                 }
                 options['xlabel'] = properties['xlabel']
+                options['label'] = properties['label']
 
                 const section = new dot.Section(sectionName, type, null);
                 for (const key in options) {
@@ -541,9 +542,10 @@ dot.Node = class {
         this._outputs = [];
         this._chain = [];
         const layer = section.layer;
+        this._inputs.push(new dot.Parameter(section.options['label'], true, [new dot.Argument('b', null, new dot.Tensor(new dot.TensorType('float32', new dot.TensorShape([1, 13, 13])), null))]));
+
         if (layer && layer.inputs && layer.inputs.length > 0) {
             this._inputs.push(new dot.Parameter(layer.inputs.length <= 1 ? 'input' : 'inputs', true, layer.inputs));
-            this._inputs.push(new dot.Parameter('1', true, [new dot.Argument('b', null, new dot.Tensor(new dot.TensorType('float32', new dot.TensorShape([1, 13, 13])), null))]));
             // this._inputs.push(new dot.Parameter('2', true, [new dot.Argument('q', null, new dot.Tensor(new dot.TensorType('float32', new dot.TensorShape([1, 13, 50, 13])), null))]));
             // this._inputs.push(new dot.Parameter('3', true, [new dot.Argument('c', null, new dot.Tensor(new dot.TensorType('float32', new dot.TensorShape([13])), null))]));
             // this._inputs.push(new dot.Parameter('4', true, [new dot.Argument('s', null, new dot.Tensor(new dot.TensorType('float32', new dot.TensorShape([1, 25, 40, 13, 13])), null))]));
