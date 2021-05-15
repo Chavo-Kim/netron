@@ -469,7 +469,7 @@ grapher.NodeElement.List = class {
 
         // HTML case
         if(label.startsWith('<')) {
-            label = label.split(/<TD colspan='[0-9]'>/)[1];
+            label = label.split(/<TD colspan='[0-9]+'>/)[1];
             console.log("remove front", label);
             label = label.split('</TD>')[0];
             console.log("remove back front", label);
