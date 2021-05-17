@@ -161,6 +161,15 @@ dot.Graph = class {
             return tokens[0];
         };
 
+        const getSection = (sectionName) => {
+            //if section is already exist, doesn't push to sections
+            if (!sections.has(sectionName)) {
+                sections.set(sectionName, new dot.Section(sectionName));
+            }
+
+            return sections.get(sectionName);
+        }
+
         const scopeStack = [];
         const types = new Set();
         while (tokens.length > 0) {
@@ -189,7 +198,7 @@ dot.Graph = class {
             // edge
             if (nextToken() === '->') {
                 consume();
-                const componentName = consume();
+                const dstSectionName = consume();
                 if (nextToken() === ':') {
                     consume(':');
                     consume();
@@ -197,10 +206,10 @@ dot.Graph = class {
                 if (nextToken() === '[') {
                     while(consume() !== ']');
                 }
-                const findSection = sections.get(componentName);
-                findSection && findSection.updateInput(token);
+
+                getSection(dstSectionName).updateInput(token);
             }
-            // component description
+            // node description
             else if (nextToken() == '['){
                 console.log('!!!!!');
                 console.log(sectionName);
@@ -268,12 +277,7 @@ dot.Graph = class {
                 if (properties['label'])
                     options['label'] = properties['label']
 
-                //if section is already exist, doesn't push to sections
-                if (!sections.has(sectionName)) {
-                    sections.set(sectionName, new dot.Section(sectionName, type, null));
-                }
-
-                const section = sections.get(sectionName);
+                const section = getSection(sectionName);
                 for (const key in options) {
                     section.updateOption(key, options[key]);
                 }
@@ -496,18 +500,18 @@ dot.TensorShape = class {
 
 
 dot.Section = class {
-    constructor(name, type, inputs) {
+    constructor(name) {
         this._name = name;
         this._chain = [];
         this._layer = {
-            inputs: inputs ? [...inputs] : [],
+            inputs: [],
             weights: [],
             outputs: [
                 new dot.Parameter(name, true, null),
             ]
         };
         this._line = 1;
-        this._type = type;
+        this._type = null;
         this._options = {};
     }
 
