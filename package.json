@@ -1,12 +1,31 @@
 {
     "name": "netron",
-    "productName": "Netron",
+    "productName": "Netron for Furiosa",
     "author": {
         "name": "Lutz Roeder",
         "email": "lutzroeder@users.noreply.github.com",
         "url": "https://www.lutzroeder.com"
     },
-    "version": "4.8.1",
+    "build": {
+        "appId": "netron",
+        "mac": {
+          "category": "netron",
+          "icon": "publish/icon.png"
+        },
+        "win": {
+            "target": [
+                {
+                    "target": "nsis",
+                    "arch": [
+                        "x64",
+                        "ia32"
+                    ]
+                }
+            ],
+            "icon": "publish/icon.png"
+        }
+    },
+    "version": "0.1.0",
     "description": "Visualizer for neural network, deep learning, and machine learning models",
     "license": "MIT",
     "repository": "lutzroeder/netron",
@@ -14,7 +33,9 @@
     "scripts": {
         "postinstall": "electron-builder install-app-deps",
         "start": "[ -d node_modules ] || npm install && npx electron .",
-        "server": "[ -d node_modules ] || npm install && python setup.py --quiet build && python -c 'import sys, os; sys.path.insert(0, os.path.join(\"dist\", \"lib\")); import netron; netron.main()' $@"
+        "server": "[ -d node_modules ] || npm install && python setup.py --quiet build && python -c 'import sys, os; sys.path.insert(0, os.path.join(\"dist\", \"lib\")); import netron; netron.main()' $@",
+        "pack": "electron-builder --dir",
+        "dist": "electron-builder"
     },
     "dependencies": {
         "d3": "6.6.0",
