@@ -13,8 +13,8 @@ Furiosa compiler 의 결과물 (.dot) 을 열어볼 수 있도록 개조된 netr
 ## Deploy
 
 ```bash
-// Make .dmg setup file
+# Make .dmg setup file
 $ npx electron-builder --mac --universal
-// Make .exe setup file
+# Make .exe setup file
 $ npx electron-builder --win --x64 --arm64
 ```
