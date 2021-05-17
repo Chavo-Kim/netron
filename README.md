@@ -9,3 +9,12 @@ Furiosa compiler 의 결과물 (.dot) 을 열어볼 수 있도록 개조된 netr
 **macOS**: [**Download**](https://github.com/Chavo-Kim/netron/releases/latest) the `.dmg` file
 
 **Windows**: [**Download**](https://github.com/Chavo-Kim/netron/releases/latest) the `.exe` installer
+
+## Deploy
+
+```bash
+// Make .dmg setup file
+$ npx electron-builder --mac --universal
+// Make .exe setup file
+$ npx electron-builder --win --x64 --arm64
+```
