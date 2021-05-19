@@ -25,7 +25,7 @@
             "icon": "publish/icon.png"
         }
     },
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Visualizer for neural network, deep learning, and machine learning models",
     "license": "MIT",
     "repository": "lutzroeder/netron",
