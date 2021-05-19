@@ -18,3 +18,7 @@ $ npx electron-builder --mac --universal
 # Make .exe setup file
 $ npx electron-builder --win --x64 --arm64
 ```
+
+## Test data
+`data/` 디렉토리의 파일들은 무리 없이 열어볼 수 있는 파일입니다.
+`data_backup/` 의 경우 열어볼수 없거나, 열어볼 수 있지만 열었을 때 렉이 심한 파일들입니다.
