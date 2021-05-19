@@ -448,6 +448,66 @@ grapher.NodeElement.List = class {
     }
 
     layout(parentElement) {
+        if (this._items.length > 0 && this._items[0].id.includes('furiosa-plaintext')) {
+            this.dotLayout(parentElement);
+            return ;
+        }
+
+        this._width = 0;
+        this._height = 0;
+        const x = 0;
+        const y = 0;
+        this._element = this.createElement('g');
+        this._element.setAttribute('class', 'node-attribute');
+        parentElement.appendChild(this._element);
+        if (this._handler) {
+            this._element.addEventListener('click', this._handler);
+        }
+        this._backgroundElement = this.createElement('path');
+        this._element.appendChild(this._backgroundElement);
+        this._element.setAttribute('transform', 'translate(' + x + ',' + y + ')');
+        this._height += 3;
+
+        for (const item of this._items) {
+            const yPadding = 1;
+            const xPadding = 6;
+            const textElement = this.createElement('text');
+            if (item.id) {
+                textElement.setAttribute('id', item.id);
+            }
+            textElement.setAttribute('xml:space', 'preserve');
+            this._element.appendChild(textElement);
+            if (item.tooltip) {
+                const titleElement = this.createElement('title');
+                titleElement.textContent = item.tooltip;
+                textElement.appendChild(titleElement);
+            }
+            const textNameElement = this.createElement('tspan');
+            textNameElement.textContent = item.name;
+            if (item.separator.trim() != '=') {
+                textNameElement.style.fontWeight = 'bold';
+            }
+            textElement.appendChild(textNameElement);
+            const textValueElement = this.createElement('tspan');
+            textValueElement.textContent = item.separator + item.value;
+            textElement.appendChild(textValueElement);
+            const size = textElement.getBBox();
+            const width = xPadding + size.width + xPadding;
+            if (this._width < width) {
+                this._width = width;
+            }
+            textElement.setAttribute('x', x + xPadding);
+            textElement.setAttribute('y', this._height + yPadding - size.y);
+            this._height += yPadding + size.height + yPadding;
+        }
+        this._height += 3;
+
+        if (this._width < 100) {
+            this._width = 100;
+        }
+    }
+
+    dotLayout(parentElement) {
         this._width = 0;
         this._height = 0;
         const x = 0;
@@ -465,14 +525,11 @@ grapher.NodeElement.List = class {
 
         let label = this._items[0].name;
         let textList;
-        console.log("edge case", label);
 
         // HTML case
         if(label.startsWith('<')) {
             label = label.split(/<TD colspan='[0-9]+'>/)[1];
-            console.log("remove front", label);
             label = label.split('</TD>')[0];
-            console.log("remove back front", label);
             textList = label.split("<BR ALIGN='left'/>");
         }
         else {
