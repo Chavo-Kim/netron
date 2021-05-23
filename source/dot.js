@@ -112,32 +112,8 @@ dot.ModelFactory = class {
 
 dot.Model = class {
     constructor(metadata, cfg) {
-        this._graphs = [ new dot.Graph(metadata, cfg), new dot.Graph() ];
-    }
+        this._graphs = [];
 
-    get format() {
-        return 'Dot';
-    }
-
-    get graphs() {
-        return this._graphs;
-    }
-};
-
-dot.Graph = class {
-
-    constructor(metadata, cfg) {
-        this._name = 'normal';
-        this._inputs = [];
-        this._outputs = [];
-        this._nodes = [];
-
-        if (!metadata && !cfg) {
-            this._name = 'asdf';
-            return;
-        }
-
-        const sections = new Map();
         const reader = base.TextReader.create(cfg);
         let lineNumber = 0;
 
@@ -153,6 +129,49 @@ dot.Graph = class {
         }
 
         const tokens = tokenize(allText);
+
+        let depth = 0;
+        let subgraphTokens = [];
+        let inSubgraph = false;
+        for (const token of tokens) {
+            if (token == '{') {
+                depth += 1;
+                if (depth === 2) {
+                    inSubgraph = true;
+                    continue;
+                }
+            }
+            if (token == '}') {
+                depth -= 1;
+                if (depth === 1) {
+                    this._graphs.push(new dot.Graph(metadata, subgraphTokens));
+                    subgraphTokens = [];
+                    inSubgraph = false;
+                }
+            }
+            if (inSubgraph) {
+                subgraphTokens.push(token);
+            }
+        }
+    }
+
+    get format() {
+        return 'Dot';
+    }
+
+    get graphs() {
+        return this._graphs;
+    }
+};
+
+dot.Graph = class {
+
+    constructor(metadata, tokens) {
+        this._inputs = [];
+        this._outputs = [];
+        this._nodes = [];
+
+        const sections = new Map();
 
         const consume = (expected) => {
             const token = tokens.shift();
@@ -292,7 +311,8 @@ dot.Graph = class {
                 // graph label
                 if (token === 'label' && nextToken() === '=') {
                     consume('=');
-                    const graphLabel = consume();
+
+                    this._name = consume();
                 }
                 else {
                     throw new Error(`Unexpected token ${token}`);
