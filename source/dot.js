@@ -112,7 +112,7 @@ dot.ModelFactory = class {
 
 dot.Model = class {
     constructor(metadata, cfg) {
-        this._graphs = [ new dot.Graph(metadata, cfg) ];
+        this._graphs = [ new dot.Graph(metadata, cfg), new dot.Graph() ];
     }
 
     get format() {
@@ -127,9 +127,15 @@ dot.Model = class {
 dot.Graph = class {
 
     constructor(metadata, cfg) {
+        this._name = 'normal';
         this._inputs = [];
         this._outputs = [];
         this._nodes = [];
+
+        if (!metadata && !cfg) {
+            this._name = 'asdf';
+            return;
+        }
 
         const sections = new Map();
         const reader = base.TextReader.create(cfg);
